@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saif Games 🎮</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#050505;
+    color:white;
+    font-family:Arial,Tahoma,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* خلفية */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(0,150,255,.08),transparent 25%),
+        radial-gradient(circle at 85% 70%,rgba(160,0,255,.07),transparent 25%);
+    pointer-events:none;
+    z-index:-1;
+}
+
+/* Header */
+header{
+    padding:25px 15px 15px;
+    text-align:center;
+}
+
+.logo{
+    font-size:38px;
+    font-weight:900;
+    letter-spacing:1px;
+    text-shadow:0 0 15px rgba(255,255,255,.25);
+    animation:logoIn .8s ease;
+}
+
+.logo span{
+    display:inline-block;
+    animation:controller 2.5s ease-in-out infinite;
+}
+
+.subtitle{
+    color:#999;
+    margin-top:8px;
+}
+
+/* Search */
+.searchBox{
+    max-width:750px;
+    margin:25px auto;
+    padding:0 15px;
+}
+
+.searchBox input{
+    width:100%;
+    padding:17px 20px;
+    border-radius:15px;
+    border:1px solid #252525;
+    outline:none;
+    background:#111;
+    color:white;
+    font-size:16px;
+    transition:.3s;
+    box-shadow:0 0 0 transparent;
+}
+
+.searchBox input:focus{
+    border-color:#555;
+    box-shadow:0 0 25px rgba(255,255,255,.08);
+    transform:translateY(-2px);
+}
+
+/* Sections */
+.container{
+    width:min(1200px,94%);
+    margin:auto;
+}
+
+.sectionTitle{
+    margin:30px 0 18px;
+    font-size:25px;
+}
+
+.sectionTitle span{
+    color:#777;
+    font-size:14px;
+}
+
+/* Grid */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+/* Card */
+.card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(145deg,#151515,#0c0c0c);
+    border:1px solid #222;
+    border-radius:20px;
+    padding:23px;
+    min-height:220px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        border-color .35s,
+        box-shadow .35s;
+    animation:cardIn .55s ease both;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    right:-80px;
+    top:-90px;
+    background:rgba(255,255,255,.08);
+    filter:blur(35px);
+    transition:.5s;
+}
+
+.card::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:70%;
+    height:100%;
+    transform:skewX(-20deg);
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.08),
+        transparent
+    );
+    transition:.7s;
+}
+
+.card:hover{
+    transform:translateY(-9px) scale(1.015);
+    border-color:#444;
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.7),
+        0 0 25px rgba(255,255,255,.07);
+}
+
+.card:hover::before{
+    transform:scale(1.5);
+    opacity:.8;
+}
+
+.card:hover::after{
+    left:140%;
+}
+
+.emoji{
+    font-size:48px;
+    display:inline-block;
+    transition:.4s;
+    filter:drop-shadow(0 0 10px rgba(255,255,255,.12));
+}
+
+.card:hover .emoji{
+    transform:translateY(-5px) rotate(-4deg) scale(1.12);
+}
+
+.card h3{
+    font-size:21px;
+    margin-top:15px;
+}
+
+.card p{
+    color:#888;
+    margin-top:7px;
+    font-size:14px;
+}
+
+.btn{
+    margin-top:18px;
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:12px;
+    background:#fff;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.btn::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:60%;
+    height:100%;
+    background:rgba(255,255,255,.7);
+    transform:skewX(-25deg);
+    transition:.5s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(255,255,255,.12);
+}
+
+.btn:hover::after{
+    left:130%;
+}
+
+/* Search results */
+#searchResults{
+    display:none;
+    margin-top:25px;
+}
+
+.empty{
+    background:#111;
+    border:1px solid #222;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    color:#888;
+}
+
+/* Pages */
+.page{
+    display:none;
+    animation:pageIn .45s ease;
+}
+
+.page.active{
+    display:block;
+}
+
+.backBtn{
+    margin:20px 0;
+    background:#171717;
+    border:1px solid #292929;
+    color:white;
+    padding:12px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.backBtn:hover{
+    background:#222;
+    transform:translateX(4px);
+}
+
+/* Details */
+.detailHeader{
+    background:linear-gradient(145deg,#151515,#090909);
+    border:1px solid #252525;
+    border-radius:22px;
+    padding:30px;
+    margin-bottom:20px;
+}
+
+.detailHeader .bigEmoji{
+    font-size:70px;
+}
+
+.detailHeader h1{
+    margin-top:12px;
+    font-size:32px;
+}
+
+.infoBox{
+    background:#101010;
+    border:1px solid #222;
+    border-radius:18px;
+    padding:22px;
+    margin:18px 0;
+}
+
+.infoBox h2{
+    margin-bottom:12px;
+}
+
+.infoBox p{
+    color:#bbb;
+    line-height:1.8;
+}
+
+/* Games inside series */
+.gameCard{
+    background:#101010;
+    border:1px solid #222;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    transition:.3s;
+}
+
+.gameCard:hover{
+    border-color:#444;
+    transform:translateX(-5px);
+    background:#151515;
+}
+
+.gameInfo h3{
+    margin-bottom:7px;
+}
+
+.gameInfo p{
+    color:#777;
+    font-size:14px;
+}
+
+.smallBtn{
+    white-space:nowrap;
+    padding:10px 15px;
+    border-radius:10px;
+    border:1px solid #333;
+    background:#181818;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.smallBtn:hover{
+    background:#fff;
+    color:#000;
+}
+
+/* Rating */
+.rating{
+    font-size:25px;
+    margin:10px 0;
+}
+
+/* Video buttons */
+.videoBtns{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+
+.videoBtn{
+    text-decoration:none;
+    color:white;
+    background:#181818;
+    border:1px solid #303030;
+    padding:12px 16px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.videoBtn:hover{
+    background:#252525;
+    transform:translateY(-3px);
+}
+
+/* Comments */
+.comments{
+    margin:35px 0;
+}
+
+.commentForm{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.commentForm input{
+    flex:1;
+    background:#111;
+    color:white;
+    border:1px solid #252525;
+    border-radius:12px;
+    padding:13px;
+    outline:none;
+}
+
+.commentForm button{
+    background:white;
+    color:black;
+    border:0;
+    border-radius:12px;
+    padding:0 20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.comment{
+    background:#111;
+    border:1px solid #222;
+    padding:15px;
+    border-radius:12px;
+    margin-top:10px;
+    animation:commentIn .3s ease;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    color:#666;
+    padding:40px 15px;
+    margin-top:40px;
+}
+
+/* Animations */
+@keyframes logoIn{
+    from{
+        opacity:0;
+        transform:translateY(-20px) scale(.9);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes controller{
+    0%,100%{transform:rotate(0)}
+    50%{transform:rotate(5deg) translateY(-3px)}
+}
+
+@keyframes cardIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes commentIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* Mobile */
+@media(max-width:900px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    .logo{
+        font-size:30px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        min-height:190px;
+    }
+
+    .gameCard{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .smallBtn{
+        width:100%;
+    }
+
+    .commentForm{
+        flex-direction:column;
+    }
+
+    .commentForm button{
+        padding:12px;
+    }
+}
+
+/* تقليل الحركة للأجهزة التي تطلب ذلك */
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        transition-duration:.01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🎮 <span>Saif Games</span></div>
+    <div class="subtitle">عالم الألعاب في مكان واحد 🔥</div>
+</header>
+
+<div class="searchBox">
+    <input
+        id="searchInput"
+        type="text"
+        placeholder="🔍 ابحث عن لعبة أو سلسلة... مثال: FIFA أو بيس أو GTA"
+        autocomplete="off"
+    >
+</div>
+
+<main class="container">
+
+<!-- ================= HOME ================= -->
+<section id="homePage" class="page active">
+
+    <h2 class="sectionTitle">
+        ⭐ Recommended
+        <span>اختيارات مميزة</span>
+    </h2>
+
+    <div id="recommendedGrid" class="grid"></div>
+
+    <div id="searchResults">
+        <h2 class="sectionTitle">🔎 نتائج البحث</h2>
+        <div id="resultsGrid" class="grid"></div>
+    </div>
+
+    <section class="comments">
+        <h2 class="sectionTitle">💬 Comments</h2>
+
+        <div class="commentForm">
+            <input id="commentInput" placeholder="اكتب تعليقك هنا...">
+            <button onclick="addComment()">إرسال</button>
+        </div>
+
+        <div id="commentsList"></div>
+    </section>
+
+</section>
+
+
+<!-- ================= SERIES PAGE ================= -->
+<section id="seriesPage" class="page">
+
+    <button class="backBtn" onclick="goHome()">← رجوع</button>
+
+    <div class="detailHeader">
+        <div class="bigEmoji" id="seriesEmoji"></div>
+        <h1 id="seriesTitle"></h1>
+        <p id="seriesDescription"></p>
+    </div>
+
+    <div class="infoBox">
+        <h2>🎮 أجزاء السلسلة</h2>
+        <div id="gamesList"></div>
+    </div>
+
+</section>
+
+
+<!-- ================= GAME PAGE ================= -->
+<section id="gamePage" class="page">
+
+    <button class="backBtn" onclick="backToSeries()">← رجوع للسلسلة</button>
+
+    <div class="detailHeader">
+        <div class="bigEmoji" id="gameEmoji"></div>
+        <h1 id="gameTitle"></h1>
+        <div class="rating" id="gameRating"></div>
+    </div>
+
+    <div class="infoBox">
+        <h2>📅 سنة الإصدار</h2>
+        <p id="gameYear"></p>
+    </div>
+
+    <div class="infoBox">
+        <h2>🎮 المنصات</h2>
+        <p id="gamePlatforms"></p>
+    </div>
+
+    <div class="infoBox">
+        <h2>📖 عن اللعبة</h2>
+        <p id="gameDescription"></p>
+    </div>
+
+    <div class="infoBox">
+        <h2>🎥 فيديوهات</h2>
+
+        <div class="videoBtns">
+            <a id="gameplayLink" class="videoBtn" target="_blank">
+                ▶️ Gameplay
+            </a>
+
+            <a id="reviewLink" class="videoBtn" target="_blank">
+                🎬 Review
+            </a>
+
+            <a id="metaLink" class="videoBtn" target="_blank">
+                ⭐ Reviews
+            </a>
+
+            <a id="sourceLink" class="videoBtn" target="_blank">
+                🌐 Sources
+            </a>
+        </div>
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    Saif Games © 2026 🎮
+</footer>
+
+
+<script>
+
+/* =====================================================
+   بيانات الألعاب
+===================================================== */
+
+const seriesData = [
+
+{
+    name:"FIFA / EA SPORTS FC",
+    emoji:"⚽",
+    aliases:["fifa","فيفا","ea sports fc","fc","fc esports","fifa fc"],
+    description:"سلسلة كرة القدم الشهيرة من EA.",
+    games:[
+        ["FIFA 23",2022,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Switch","آخر أجزاء FIFA قبل انتقال الاسم إلى EA SPORTS FC."],
+        ["EA SPORTS FC 24",2023,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Switch","أول جزء رئيسي يحمل اسم EA SPORTS FC."],
+        ["EA SPORTS FC 25",2024,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Switch","جزء جديد من سلسلة EA SPORTS FC."],
+        ["EA SPORTS FC 26",2025,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Switch","جزء حديث من سلسلة EA SPORTS FC."],
+        ["FIFA 22",2021,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Switch","جزء من سلسلة FIFA."],
+        ["FIFA 21",2020,"PC, PS4, Xbox One, Switch","جزء من سلسلة FIFA."]
+    ]
+},
+
+{
+    name:"PES / eFootball",
+    emoji:"⚽",
+    aliases:["pes","بيس","efootball","e football","ويننج اليفن","winning eleven"],
+    description:"سلسلة كرة القدم من Konami التي تطورت إلى eFootball.",
+    games:[
+        ["eFootball",2021,"PS5, PS4, Xbox, PC, Steam, Mobile","تطور سلسلة PES وتحولت إلى نموذج مجاني للعب."],
+        ["eFootball 2024",2023,"PS5, PS4, Xbox, PC, Mobile","إصدار من سلسلة eFootball."],
+        ["eFootball 2025",2024,"PS5, PS4, Xbox, PC, Mobile","إصدار حديث من eFootball."],
+        ["eFootball 2026",2025,"PS5, PS4, Xbox, PC, Mobile","إصدار حديث من سلسلة eFootball."],
+        ["PES 2021",2020,"PC, PS4, Xbox One","آخر إصدار رئيسي تحت اسم PES."]
+    ]
+},
+
+{
+    name:"Grand Theft Auto",
+    emoji:"🚗",
+    aliases:["gta","جراند","جراند ثفت اوتو","grand theft auto"],
+    description:"واحدة من أشهر سلاسل ألعاب العالم المفتوح.",
+    games:[
+        ["GTA III",2001,"PC, PlayStation, Xbox, Mobile","جزء كلاسيكي من السلسلة."],
+        ["GTA Vice City",2002,"PC, PlayStation, Xbox, Mobile","عالم مفتوح بطابع الثمانينات."],
+        ["GTA San Andreas",2004,"PC, PlayStation, Xbox, Mobile","واحد من أشهر أجزاء السلسلة."],
+        ["GTA IV",2008,"PC, PS3, Xbox 360","جزء رئيسي من السلسلة."],
+        ["GTA V",2013,"PC, PS3, PS4, PS5, Xbox 360, Xbox One, Xbox Series","أحد أشهر ألعاب العالم المفتوح."],
+        ["GTA VI",2026,"PS5, Xbox Series X/S","الجزء القادم الرئيسي من السلسلة."]
+    ]
+},
+
+{
+    name:"Assassin's Creed",
+    emoji:"🏹",
+    aliases:["assassin's creed","assassins creed","اساسنز كريد","اساسين كريد"],
+    description:"سلسلة أكشن ومغامرات تاريخية من Ubisoft.",
+    games:[
+        ["Assassin's Creed",2007,"PC, PS3, Xbox 360","بداية السلسلة."],
+        ["Assassin's Creed II",2009,"PC, PS3, Xbox 360","من أشهر أجزاء السلسلة."],
+        ["Assassin's Creed Brotherhood",2010,"PC, PS3, Xbox 360","تكملة لقصة إزيو."],
+        ["Assassin's Creed Revelations",2011,"PC, PS3, Xbox 360","ختام قصة إزيو."],
+        ["Assassin's Creed III",2012,"PC, PS3, Xbox 360","جزء رئيسي جديد."],
+        ["Assassin's Creed IV Black Flag",2013,"PC, PS3, PS4, Xbox","جزء بطابع القراصنة."],
+        ["Assassin's Creed Origins",2017,"PC, PS4, Xbox One","بداية حقبة RPG الحديثة."],
+        ["Assassin's Creed Odyssey",2018,"PC, PS4, Xbox One","مغامرة RPG واسعة."],
+        ["Assassin's Creed Valhalla",2020,"PC, PS4, PS5, Xbox","جزء بطابع الفايكنج."],
+        ["Assassin's Creed Mirage",2023,"PC, PS4, PS5, Xbox","عودة لأسلوب التخفي الكلاسيكي."]
+    ]
+},
+
+{
+    name:"Batman",
+    emoji:"🦇",
+    aliases:["batman","باتمان","arkham","batman arkham"],
+    description:"سلسلة ألعاب باتمان الشهيرة، وخاصة سلسلة Arkham.",
+    games:[
+        ["Batman Arkham Asylum",2009,"PC, PS3, Xbox 360","بداية سلسلة Arkham."],
+        ["Batman Arkham City",2011,"PC, PS3, Xbox 360","جزء واسع ومشهور من السلسلة."],
+        ["Batman Arkham Origins",2013,"PC, PS3, Xbox 360","قصة سابقة لأحداث Arkham."],
+        ["Batman Arkham Knight",2015,"PC, PS4, Xbox One","ختام ثلاثية Arkham الرئيسية."]
+    ]
+},
+
+{
+    name:"Red Dead",
+    emoji:"🤠",
+    aliases:["red dead","ريد ديد","red dead redemption"],
+    description:"سلسلة الغرب الأمريكي الشهيرة من Rockstar.",
+    games:[
+        ["Red Dead Revolver",2004,"PS2, Xbox","بداية عالم Red Dead."],
+        ["Red Dead Redemption",2010,"PS3, Xbox 360","قصة جون مارستون."],
+        ["Red Dead Redemption 2",2018,"PC, PS4, Xbox One","مغامرة عالم مفتوح في الغرب الأمريكي."]
+    ]
+},
+
+{
+    name:"Need for Speed",
+    emoji:"🏎️",
+    aliases:["need for speed","nfs","نيد فور سبيد","نيد فور سبيد"],
+    description:"سلسلة سباقات السيارات الشهيرة.",
+    games:[
+        ["Need for Speed Underground",2003,"PC, PS2, Xbox, GameCube","سباقات شوارع وتعديل سيارات."],
+        ["Need for Speed Most Wanted",2005,"PC, PS2, Xbox, Xbox 360","من أشهر أجزاء السلسلة."],
+        ["Need for Speed Carbon",2006,"PC, PS2, PS3, Xbox","سباقات شوارع."],
+        ["Need for Speed Hot Pursuit",2010,"PC, PS3, Xbox 360","مطاردات الشرطة."],
+        ["Need for Speed Rivals",2013,"PC, PS3, PS4, Xbox","سباقات ومطاردات."],
+        ["Need for Speed Payback",2017,"PC, PS4, Xbox One","عالم مفتوح وسباقات."],
+        ["Need for Speed Heat",2019,"PC, PS4, Xbox One","سباقات نهارية وليلية."],
+        ["Need for Speed Unbound",2022,"PC, PS5, Xbox Series","أسلوب بصري مميز وسباقات شوارع."]
+    ]
+},
+
+{
+    name:"God of War",
+    emoji:"⚔️",
+    aliases:["god of war","جود اوف وار","جود أوف وور"],
+    description:"سلسلة الأكشن والمغامرات الشهيرة.",
+    games:[
+        ["God of War",2005,"PS2","بداية السلسلة."],
+        ["God of War II",2007,"PS2","تكملة قصة كريتوس."],
+        ["God of War III",2010,"PS3","جزء رئيسي من الحقبة اليونانية."],
+        ["God of War",2018,"PS4, PC","بداية حقبة نورسية جديدة."],
+        ["God of War Ragnarök",2022,"PS4, PS5, PC","تكملة قصة كريتوس وأتريوس."]
+    ]
+},
+
+{
+    name:"Call of Duty",
+    emoji:"🔫",
+    aliases:["call of duty","cod","كول اوف ديوتي","كول أوف ديوتي"],
+    description:"سلسلة التصويب الشهيرة.",
+    games:[
+        ["Call of Duty 4 Modern Warfare",2007,"PC, PS3, Xbox 360","من أشهر ألعاب التصويب."],
+        ["Call of Duty World at War",2008,"PC, PS3, Xbox 360","جزء بطابع الحرب العالمية الثانية."],
+        ["Call of Duty Modern Warfare 2",2009,"PC, PS3, Xbox 360","جزء شهير من Modern Warfare."],
+        ["Call of Duty Black Ops",2010,"PC, PS3, Xbox 360","بداية سلسلة Black Ops."],
+        ["Call of Duty Modern Warfare",2019,"PC, PS4, Xbox One","إعادة تصور لسلسلة Modern Warfare."],
+        ["Call of Duty Black Ops Cold War",2020,"PC, PS4, PS5, Xbox","جزء من Black Ops."],
+        ["Call of Duty Modern Warfare II",2022,"PC, PS4, PS5, Xbox","تكملة حديثة لـ Modern Warfare."],
+        ["Call of Duty Black Ops 6",2024,"PC, PS4, PS5, Xbox","جزء حديث من Black Ops."]
+    ]
+},
+
+{
+    name:"Valorant",
+    emoji:"🎯",
+    aliases:["valorant","فالورانت"],
+    description:"لعبة تصويب تنافسية تعتمد على الشخصيات والقدرات.",
+    games:[
+        ["Valorant",2020,"PC","لعبة تصويب تنافسية من Riot Games."]
+    ]
+},
+
+{
+    name:"League of Legends",
+    emoji:"🧙",
+    aliases:["league of legends","lol","ليج اوف ليجند","ليج اوف ليجندز"],
+    description:"لعبة MOBA تنافسية شهيرة.",
+    games:[
+        ["League of Legends",2009,"PC","لعبة MOBA تنافسية من Riot Games."]
+    ]
+},
+
+{
+    name:"Marvel Rivals",
+    emoji:"🦸",
+    aliases:["marvel rivals","مارفل رايفلز","مارفل ريفلز","marvel"],
+    description:"لعبة تصويب جماعية تضم شخصيات من عالم Marvel.",
+    games:[
+        ["Marvel Rivals",2024,"PC, PS5, Xbox Series X/S","لعبة تصويب جماعية تعتمد على شخصيات Marvel."]
+    ]
+},
+
+{
+    name:"LEGO",
+    emoji:"🧱",
+    aliases:["lego","ليجو","ليغو","lego games"],
+    description:"مجموعة ألعاب LEGO المبنية على عوالم وشخصيات مختلفة.",
+    games:[
+        ["LEGO Star Wars",2005,"PC, PlayStation, Xbox, Nintendo","ألعاب LEGO بطابع Star Wars."],
+        ["LEGO Batman",2008,"PC, PlayStation, Xbox, Nintendo","مغامرات Batman بأسلوب LEGO."],
+        ["LEGO Harry Potter",2010,"PC, PlayStation, Xbox, Nintendo","مغامرات Harry Potter بأسلوب LEGO."],
+        ["LEGO Marvel Super Heroes",2013,"PC, PlayStation, Xbox, Nintendo","شخصيات Marvel بأسلوب LEGO."],
+        ["LEGO Jurassic World",2015,"PC, PlayStation, Xbox, Nintendo","عالم Jurassic World بأسلوب LEGO."],
+        ["LEGO DC Super-Villains",2018,"PC, PlayStation, Xbox, Nintendo","مغامرة LEGO بشخصيات DC."]
+    ]
+},
+
+{
+    name:"The Last of Us",
+    emoji:"🍄",
+    aliases:["the last of us","last of us","ذا لاست اوف اس"],
+    description:"سلسلة أكشن ومغامرات وقصة.",
+    games:[
+        ["The Last of Us",2013,"PS3, PS4, PS5","بداية القصة."],
+        ["The Last of Us Part II",2020,"PS4, PS5","تكملة القصة."]
+    ]
+},
+
+{
+    name:"Grand Theft Auto",
+    emoji:"🚘",
+    aliases:["grand theft auto"],
+    description:"سلسلة العالم المفتوح الشهيرة.",
+    games:[
+        ["GTA San Andreas",2004,"PC, PlayStation, Xbox, Mobile","عالم مفتوح شهير."],
+        ["GTA IV",2008,"PC, PS3, Xbox 360","جزء رئيسي من السلسلة."],
+        ["GTA V",2013,"PC, PS4, PS5, Xbox","عالم مفتوح واسع."]
+    ]
+},
+
+{
+    name:"Resident Evil",
+    emoji:"🧟",
+    aliases:["resident evil","ريزدنت ايفل","رزنت ايفل"],
+    description:"سلسلة الرعب والبقاء الشهيرة.",
+    games:[
+        ["Resident Evil 2",1998,"PC, PlayStation, Xbox, Nintendo","جزء كلاسيكي شهير."],
+        ["Resident Evil 4",2005,"PC, PlayStation, Xbox","جزء مؤثر في تاريخ السلسلة."],
+        ["Resident Evil 7",2017,"PC, PS4, Xbox One","عودة قوية للرعب."],
+        ["Resident Evil Village",2021,"PC, PS4, PS5, Xbox","تكملة لأحداث RE7."]
+    ]
+},
+
+{
+    name:"Far Cry",
+    emoji:"🏝️",
+    aliases:["far cry","فار كراي","فار كراي"],
+    description:"سلسلة تصويب وعالم مفتوح.",
+    games:[
+        ["Far Cry 3",2012,"PC, PS3, Xbox 360","من أشهر أجزاء السلسلة."],
+        ["Far Cry 4",2014,"PC, PS3, PS4, Xbox","عالم مفتوح."],
+        ["Far Cry 5",2018,"PC, PS4, Xbox One","عالم مفتوح."],
+        ["Far Cry 6",2021,"PC, PS4, PS5, Xbox","جزء حديث."]
+    ]
+},
+
+{
+    name:"The Witcher",
+    emoji:"🐺",
+    aliases:["the witcher","ويتشر","ذا ويتشر"],
+    description:"سلسلة RPG فانتازيا شهيرة.",
+    games:[
+        ["The Witcher",2007,"PC","بداية السلسلة."],
+        ["The Witcher 2",2011,"PC, Xbox 360","جزء RPG."],
+        ["The Witcher 3",2015,"PC, PS4, Xbox One, Switch, PS5, Xbox Series","من أشهر ألعاب RPG."]
+    ]
+},
+
+{
+    name:"Minecraft",
+    emoji:"⛏️",
+    aliases:["minecraft","ماينكرافت"],
+    description:"لعبة بناء واستكشاف وبقاء.",
+    games:[
+        ["Minecraft",2011,"PC, PlayStation, Xbox, Switch, Mobile","لعبة بناء واستكشاف."]
+    ]
+},
+
+{
+    name:"Fortnite",
+    emoji:"🛡️",
+    aliases:["fortnite","فورتنايت"],
+    description:"لعبة Battle Royale وأطوار متعددة.",
+    games:[
+        ["Fortnite",2017,"PC, PlayStation, Xbox, Switch, Mobile","لعبة جماعية شهيرة."]
+    ]
+}
+
+];
+
+/* =====================================================
+   Recommended
+===================================================== */
+
+const recommendedNames = [
+    "FIFA / EA SPORTS FC",
+    "PES / eFootball",
+    "Grand Theft Auto",
+    "Assassin's Creed",
+    "Batman",
+    "Red Dead",
+    "Need for Speed",
+    "God of War",
+    "Call of Duty",
+    "Valorant",
+    "League of Legends",
+    "Marvel Rivals",
+    "LEGO"
+];
+
+const recommendedGrid = document.getElementById("recommendedGrid");
+
+function renderRecommended(){
+
+    recommendedGrid.innerHTML = "";
+
+    recommendedNames.forEach(name => {
+
+        const series = seriesData.find(s => s.name === name);
+
+        if(!series) return;
+
+        recommendedGrid.innerHTML += `
+            <div class="card">
+                <div>
+                    <div class="emoji">${series.emoji}</div>
+                    <h3>${series.name}</h3>
+                    <p>${series.description}</p>
+                </div>
+
+                <button class="btn"
+                    onclick="openSeries('${escapeQuotes(series.name)}')">
+                    التفاصيل
+                </button>
+            </div>
+        `;
+    });
+}
+
+/* =====================================================
+   فتح السلسلة
+===================================================== */
+
+let currentSeries = null;
+
+function openSeries(name){
+
+    const series = seriesData.find(s => s.name === name);
+
+    if(!series) return;
+
+    currentSeries = series;
+
+    hidePages();
+
+    document.getElementById("seriesPage").classList.add("active");
+
+    document.getElementById("seriesEmoji").textContent = series.emoji;
+    document.getElementById("seriesTitle").textContent = series.name;
+    document.getElementById("seriesDescription").textContent = series.description;
+
+    const gamesList = document.getElementById("gamesList");
+
+    gamesList.innerHTML = "";
+
+    series.games.forEach((game,index) => {
+
+        gamesList.innerHTML += `
+            <div class="gameCard">
+                <div class="gameInfo">
+                    <h3>${game[0]}</h3>
+                    <p>📅 ${game[1]} — 🎮 ${game[2]}</p>
+                </div>
+
+                <button
+                    class="smallBtn"
+                    onclick="openGame(${index})">
+                    التفاصيل
+                </button>
+            </div>
+        `;
+    });
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+/* =====================================================
+   فتح اللعبة
+===================================================== */
+
+function openGame(index){
+
+    const game = currentSeries.games[index];
+
+    hidePages();
+
+    document.getElementById("gamePage").classList.add("active");
+
+    document.getElementById("gameEmoji").textContent =
+        currentSeries.emoji;
+
+    document.getElementById("gameTitle").textContent =
+        game[0];
+
+    document.getElementById("gameYear").textContent =
+        game[1];
+
+    document.getElementById("gamePlatforms").textContent =
+        game[2];
+
+    document.getElementById("gameDescription").textContent =
+        game[3];
+
+    document.getElementById("gameRating").textContent =
+        "⭐ تقييمات ومراجعات اللعبة";
+
+    const query = encodeURIComponent(game[0]);
+
+    document.getElementById("gameplayLink").href =
+        "https://www.youtube.com/results?search_query=" +
+        query + "+gameplay";
+
+    document.getElementById("reviewLink").href =
+        "https://www.youtube.com/results?search_query=" +
+        query + "+review";
+
+    document.getElementById("metaLink").href =
+        "https://www.metacritic.com/search/" +
+        query;
+
+    document.getElementById("sourceLink").href =
+        "https://www.google.com/search?q=" +
+        query +
+        "+official";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+/* =====================================================
+   البحث
+===================================================== */
+
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+const resultsGrid = document.getElementById("resultsGrid");
+
+searchInput.addEventListener("input",function(){
+
+    const value = normalize(this.value);
+
+    if(!value){
+        searchResults.style.display = "none";
+        return;
+    }
+
+    const results = [];
+
+    seriesData.forEach(series => {
+
+        const seriesMatch =
+            normalize(series.name).includes(value) ||
+            series.aliases.some(alias =>
+                normalize(alias).includes(value)
+            );
+
+        if(seriesMatch){
+            results.push({
+                type:"series",
+                series:series
+            });
+        }
+
+        series.games.forEach((game,index)=>{
+
+            if(normalize(game[0]).includes(value)){
+
+                results.push({
+                    type:"game",
+                    series:series,
+                    index:index,
+                    game:game
+                });
+
+            }
+
+        });
+
+    });
+
+    searchResults.style.display = "block";
+
+    if(results.length === 0){
+
+        resultsGrid.innerHTML = `
+            <div class="empty">
+                ❌ مفيش نتائج لحد دلوقتي
+            </div>
+        `;
+
+        return;
+    }
+
+    resultsGrid.innerHTML = "";
+
+    results.forEach(result=>{
+
+        if(result.type === "series"){
+
+            resultsGrid.innerHTML += `
+                <div class="card">
+                    <div>
+                        <div class="emoji">
+                            ${result.series.emoji}
+                        </div>
+
+                        <h3>${result.series.name}</h3>
+
+                        <p>
+                            🎮 سلسلة — ${result.series.games.length} أجزاء
+                        </p>
+                    </div>
+
+                    <button
+                        class="btn"
+                        onclick="openSeries('${escapeQuotes(result.series.name)}')">
+                        تفاصيل السلسلة
+                    </button>
+                </div>
+            `;
+
+        }else{
+
+            resultsGrid.innerHTML += `
+                <div class="card">
+                    <div>
+                        <div class="emoji">
+                            ${result.series.emoji}
+                        </div>
+
+                        <h3>${result.game[0]}</h3>
+
+                        <p>
+                            ${result.series.name}
+                        </p>
+                    </div>
+
+                    <button
+                        class="btn"
+                        onclick="openSearchGame(
+                            '${escapeQuotes(result.series.name)}',
+                            ${result.index}
+                        )">
+                        تفاصيل اللعبة
+                    </button>
+                </div>
+            `;
+
+        }
+
+    });
+
+});
+
+/* =====================================================
+   فتح لعبة من السيرش
+===================================================== */
+
+function openSearchGame(seriesName,index){
+
+    const series = seriesData.find(
+        s => s.name === seriesName
+    );
+
+    if(!series) return;
+
+    currentSeries = series;
+
+    openGame(index);
+}
+
+/* =====================================================
+   Navigation
+===================================================== */
+
+function hidePages(){
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page=>{
+            page.classList.remove("active");
+        });
+
+}
+
+function goHome(){
+
+    hidePages();
+
+    document
+        .getElementById("homePage")
+        .classList.add("active");
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+function backToSeries(){
+
+    if(currentSeries){
+        openSeries(currentSeries.name);
+    }else{
+        goHome();
+    }
+}
+
+/* =====================================================
+   Comments
+===================================================== */
+
+function loadComments(){
+
+    const comments =
+        JSON.parse(
+            localStorage.getItem("saifGamesComments") || "[]"
+        );
+
+    const list =
+        document.getElementById("commentsList");
+
+    list.innerHTML = "";
+
+    comments.forEach(comment=>{
+
+        list.innerHTML += `
+            <div class="comment">
+                💬 ${escapeHTML(comment)}
+            </div>
+        `;
+
+    });
+}
+
+function addComment(){
+
+    const input =
+        document.getElementById("commentInput");
+
+    const text =
+        input.value.trim();
+
+    if(!text) return;
+
+    const comments =
+        JSON.parse(
+            localStorage.getItem("saifGamesComments") || "[]"
+        );
+
+    comments.unshift(text);
+
+    localStorage.setItem(
+        "saifGamesComments",
+        JSON.stringify(comments)
+    );
+
+    input.value = "";
+
+    loadComments();
+}
+
+/* =====================================================
+   Helpers
+===================================================== */
+
+function normalize(text){
+
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/[أإآ]/g,"ا")
+        .replace(/ى/g,"ي")
+        .replace(/ة/g,"ه");
+}
+
+function escapeQuotes(text){
+
+    return text
+        .replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'");
+}
+
+function escapeHTML(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+/* تشغيل */
+renderRecommended();
+loadComments();
+
+</script>
+
+</body>
+</html>
