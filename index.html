@@ -24,7 +24,6 @@ body{
     overflow-x:hidden;
 }
 
-/* خلفية */
 body::before{
     content:"";
     position:fixed;
@@ -36,7 +35,6 @@ body::before{
     z-index:-1;
 }
 
-/* Header */
 header{
     padding:25px 15px 15px;
     text-align:center;
@@ -60,7 +58,6 @@ header{
     margin-top:8px;
 }
 
-/* Search */
 .searchBox{
     max-width:750px;
     margin:25px auto;
@@ -86,7 +83,6 @@ header{
     transform:translateY(-2px);
 }
 
-/* Sections */
 .container{
     width:min(1200px,94%);
     margin:auto;
@@ -102,14 +98,12 @@ header{
     font-size:14px;
 }
 
-/* Grid */
 .grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:18px;
 }
 
-/* Card */
 .card{
     position:relative;
     overflow:hidden;
@@ -232,7 +226,6 @@ header{
     left:130%;
 }
 
-/* Search results */
 #searchResults{
     display:none;
     margin-top:25px;
@@ -247,7 +240,6 @@ header{
     color:#888;
 }
 
-/* Pages */
 .page{
     display:none;
     animation:pageIn .45s ease;
@@ -273,7 +265,6 @@ header{
     transform:translateX(4px);
 }
 
-/* Details */
 .detailHeader{
     background:linear-gradient(145deg,#151515,#090909);
     border:1px solid #252525;
@@ -308,7 +299,6 @@ header{
     line-height:1.8;
 }
 
-/* Games inside series */
 .gameCard{
     background:#101010;
     border:1px solid #222;
@@ -353,13 +343,11 @@ header{
     color:#000;
 }
 
-/* Rating */
 .rating{
     font-size:25px;
     margin:10px 0;
 }
 
-/* Video buttons */
 .videoBtns{
     display:flex;
     flex-wrap:wrap;
@@ -382,7 +370,6 @@ header{
     transform:translateY(-3px);
 }
 
-/* Comments */
 .comments{
     margin:35px 0;
 }
@@ -422,7 +409,6 @@ header{
     animation:commentIn .3s ease;
 }
 
-/* Footer */
 footer{
     text-align:center;
     color:#666;
@@ -430,7 +416,6 @@ footer{
     margin-top:40px;
 }
 
-/* Animations */
 @keyframes logoIn{
     from{
         opacity:0;
@@ -480,7 +465,6 @@ footer{
     }
 }
 
-/* Mobile */
 @media(max-width:900px){
     .grid{
         grid-template-columns:repeat(2,1fr);
@@ -518,7 +502,6 @@ footer{
     }
 }
 
-/* تقليل الحركة للأجهزة التي تطلب ذلك */
 @media(prefers-reduced-motion:reduce){
     *,
     *::before,
@@ -548,7 +531,6 @@ footer{
 
 <main class="container">
 
-<!-- ================= HOME ================= -->
 <section id="homePage" class="page active">
 
     <h2 class="sectionTitle">
@@ -576,8 +558,6 @@ footer{
 
 </section>
 
-
-<!-- ================= SERIES PAGE ================= -->
 <section id="seriesPage" class="page">
 
     <button class="backBtn" onclick="goHome()">← رجوع</button>
@@ -595,8 +575,6 @@ footer{
 
 </section>
 
-
-<!-- ================= GAME PAGE ================= -->
 <section id="gamePage" class="page">
 
     <button class="backBtn" onclick="backToSeries()">← رجوع للسلسلة</button>
@@ -652,12 +630,7 @@ footer{
     Saif Games © 2026 🎮
 </footer>
 
-
 <script>
-
-/* =====================================================
-   بيانات الألعاب
-===================================================== */
 
 const seriesData = [
 
@@ -752,7 +725,7 @@ const seriesData = [
 {
     name:"Need for Speed",
     emoji:"🏎️",
-    aliases:["need for speed","nfs","نيد فور سبيد","نيد فور سبيد"],
+    aliases:["need for speed","nfs","نيد فور سبيد"],
     description:"سلسلة سباقات السيارات الشهيرة.",
     games:[
         ["Need for Speed Underground",2003,"PC, PS2, Xbox, GameCube","سباقات شوارع وتعديل سيارات."],
@@ -881,7 +854,7 @@ const seriesData = [
 {
     name:"Far Cry",
     emoji:"🏝️",
-    aliases:["far cry","فار كراي","فار كراي"],
+    aliases:["far cry","فار كراي"],
     description:"سلسلة تصويب وعالم مفتوح.",
     games:[
         ["Far Cry 3",2012,"PC, PS3, Xbox 360","من أشهر أجزاء السلسلة."],
@@ -924,10 +897,6 @@ const seriesData = [
 }
 
 ];
-
-/* =====================================================
-   Recommended
-===================================================== */
 
 const recommendedNames = [
     "FIFA / EA SPORTS FC",
@@ -974,10 +943,6 @@ function renderRecommended(){
     });
 }
 
-/* =====================================================
-   فتح السلسلة
-===================================================== */
-
 let currentSeries = null;
 
 function openSeries(name){
@@ -1023,10 +988,6 @@ function openSeries(name){
         behavior:"smooth"
     });
 }
-
-/* =====================================================
-   فتح اللعبة
-===================================================== */
 
 function openGame(index){
 
@@ -1092,9 +1053,15 @@ searchInput.addEventListener("input",function(){
     const value = normalize(this.value);
 
     if(!value){
+
+        recommendedGrid.style.display = "grid";
         searchResults.style.display = "none";
+        resultsGrid.innerHTML = "";
+
         return;
     }
+
+    recommendedGrid.style.display = "none";
 
     const results = [];
 
@@ -1204,10 +1171,6 @@ searchInput.addEventListener("input",function(){
 
 });
 
-/* =====================================================
-   فتح لعبة من السيرش
-===================================================== */
-
 function openSearchGame(seriesName,index){
 
     const series = seriesData.find(
@@ -1220,10 +1183,6 @@ function openSearchGame(seriesName,index){
 
     openGame(index);
 }
-
-/* =====================================================
-   Navigation
-===================================================== */
 
 function hidePages(){
 
@@ -1257,10 +1216,6 @@ function backToSeries(){
         goHome();
     }
 }
-
-/* =====================================================
-   Comments
-===================================================== */
 
 function loadComments(){
 
@@ -1312,10 +1267,6 @@ function addComment(){
     loadComments();
 }
 
-/* =====================================================
-   Helpers
-===================================================== */
-
 function normalize(text){
 
     return text
@@ -1342,7 +1293,6 @@ function escapeHTML(text){
     return div.innerHTML;
 }
 
-/* تشغيل */
 renderRecommended();
 loadComments();
 
