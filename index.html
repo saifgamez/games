@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saif Games 🎮</title>
+<title>Space Game 🚀</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -278,13 +278,718 @@ footer{text-align:center;color:#666;padding:40px 15px;margin-top:40px}
         transition-duration:.01ms!important
     }
 }
+
+/* =====================================================
+   DARK / LIGHT MODE + ANIMATED GAMING BACKGROUND
+===================================================== */
+body{
+    --bg:#050505;
+    --text:#fff;
+    --muted:#999;
+    --panel:#101010;
+    --panel2:#151515;
+    --panel3:#181818;
+    --border:#252525;
+    --softBorder:#222;
+    --button:#fff;
+    --buttonText:#000;
+    background:var(--bg);
+    color:var(--text);
+    position:relative;
+}
+body::before{
+    z-index:0;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(0,150,255,.18),transparent 27%),
+        radial-gradient(circle at 85% 70%,rgba(160,0,255,.16),transparent 27%),
+        radial-gradient(circle at 50% 110%,rgba(0,255,190,.10),transparent 25%);
+    filter:blur(4px);
+    animation:bgGlow 12s ease-in-out infinite alternate;
+}
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:.45;
+    background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:55px 55px;
+    mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%);
+    animation:gridMove 12s linear infinite;
+}
+header,.searchBox,.container,footer{position:relative;z-index:2}
+
+.themeToggle{
+    position:absolute;
+    top:22px;
+    left:20px;
+    width:64px;
+    height:34px;
+    padding:3px;
+    border:1px solid #333;
+    border-radius:999px;
+    background:#111;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    transition:.35s;
+    box-shadow:0 5px 20px rgba(0,0,0,.3),0 0 18px rgba(0,150,255,.08);
+    z-index:10;
+}
+.themeToggle .themeIcon{
+    position:absolute;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+    color:#111;
+    font-size:15px;
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.themeToggle .sun{right:5px;opacity:.45}
+.themeToggle .moon{left:5px;opacity:1}
+body.light .themeToggle{background:#e9eef7;border-color:#cbd5e1}
+body.light .themeToggle .themeIcon{transform:translateX(30px);background:#fff;color:#f59e0b}
+body.light .themeToggle .sun{opacity:1}
+body.light .themeToggle .moon{opacity:.35}
+
+/* Light theme */
+body.light{
+    --bg:#eef3f9;
+    --text:#111827;
+    --muted:#64748b;
+    --panel:#ffffff;
+    --panel2:#f8fafc;
+    --panel3:#eef2f7;
+    --border:#cbd5e1;
+    --softBorder:#dbe2ea;
+    --button:#111827;
+    --buttonText:#fff;
+    background:var(--bg);
+}
+body.light::before{
+    background:
+        radial-gradient(circle at 15% 20%,rgba(0,140,255,.16),transparent 28%),
+        radial-gradient(circle at 85% 70%,rgba(145,70,255,.13),transparent 28%),
+        radial-gradient(circle at 50% 110%,rgba(0,180,150,.10),transparent 25%);
+}
+body.light::after{
+    opacity:.28;
+    background-image:
+        linear-gradient(rgba(15,23,42,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(15,23,42,.07) 1px,transparent 1px);
+}
+body.light .subtitle{color:#64748b}
+body.light .searchBox input,
+body.light .filterBtn,
+body.light #favoriteMenu,
+body.light .filterMenu,
+body.light .favoriteItem,
+body.light .filterOption,
+body.light .empty,
+body.light .backBtn,
+body.light .infoBox,
+body.light .gameCard,
+body.light .smallBtn,
+body.light .favoriteBtn,
+body.light .videoBtn,
+body.light .commentForm input,
+body.light .comment{
+    background:rgba(255,255,255,.88);
+    color:#111827;
+    border-color:#cbd5e1;
+}
+body.light .searchBox input::placeholder,
+body.light .card p,
+body.light .gameInfo p,
+body.light .infoBox p,
+body.light .empty,
+body.light .catalogCount,
+body.light footer{color:#64748b}
+body.light .searchBox input:focus{border-color:#64748b;box-shadow:0 0 25px rgba(0,100,200,.12)}
+body.light .filterBtn:hover,
+body.light .filterBtn.active,
+body.light .filterOption:hover,
+body.light .filterOption.selected{
+    background:#111827;color:#fff;border-color:#111827
+}
+body.light .card,
+body.light .detailHeader{
+    background:linear-gradient(145deg,rgba(255,255,255,.96),rgba(241,245,249,.92));
+    border-color:#cbd5e1;
+    box-shadow:0 15px 40px rgba(15,23,42,.08)
+}
+body.light .card:hover{border-color:#94a3b8;box-shadow:0 15px 45px rgba(15,23,42,.14),0 0 25px rgba(0,120,255,.08)}
+body.light .card::before{background:rgba(0,120,255,.08)}
+body.light .card::after{background:linear-gradient(90deg,transparent,rgba(0,0,0,.05),transparent)}
+body.light .btn,
+body.light .commentForm button{background:#111827;color:#fff}
+body.light .btn:hover{box-shadow:0 8px 25px rgba(15,23,42,.15)}
+body.light .btn::after{background:rgba(255,255,255,.25)}
+body.light .backBtn:hover,
+body.light .gameCard:hover,
+body.light .smallBtn:hover,
+body.light .videoBtn:hover{background:#e2e8f0;color:#111827}
+body.light .favoriteOpenBtn{background:#f1f5f9;color:#111827;border-color:#cbd5e1}
+body.light .favoriteOpenBtn:hover{background:#111827;color:#fff}
+body.light .favoriteRemoveBtn{background:#fff8cc}
+body.light .favoriteItem:hover{background:#f1f5f9;border-color:#94a3b8}
+body.light .favoriteBtn{color:#64748b}
+body.light .favoriteBtn:hover{background:#e2e8f0;color:#111827}
+body.light .favoriteBtn.active{background:#fff8cc;color:#b45309;border-color:#eab308}
+
+@keyframes bgGlow{
+    0%{transform:scale(1) translate3d(0,0,0)}
+    50%{transform:scale(1.06) translate3d(1%, -1%, 0)}
+    100%{transform:scale(1.12) translate3d(-1%, 1%, 0)}
+}
+
+/* ===== PREMIUM REALISTIC SPACE BACKGROUND ===== */
+.space-bg{
+    position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;
+    background:
+      radial-gradient(ellipse at 50% 110%,rgba(42,74,150,.18),transparent 50%),
+      radial-gradient(ellipse at 10% 20%,rgba(88,44,180,.12),transparent 34%),
+      radial-gradient(ellipse at 90% 70%,rgba(20,105,190,.10),transparent 32%),
+      #01030a;
+}
+.space-bg .stars,.space-bg .stars::before,.space-bg .stars::after{
+    position:absolute;inset:-20%;content:"";background-repeat:repeat;
+    background-image:
+      radial-gradient(circle,rgba(255,255,255,.95) 0 1px,transparent 1.5px),
+      radial-gradient(circle,rgba(180,220,255,.70) 0 1px,transparent 1.6px),
+      radial-gradient(circle,rgba(255,255,255,.50) 0 .7px,transparent 1.3px);
+    background-size:145px 145px,230px 230px,95px 95px;
+    background-position:10px 20px,80px 60px,30px 90px;
+    opacity:.52;will-change:transform;
+}
+.space-bg .stars::before{opacity:.30;transform:scale(1.25)}
+.space-bg .stars::after{opacity:.18;transform:scale(1.55)}
+.galaxy{
+    position:absolute;width:420px;height:250px;border-radius:50%;opacity:.22;
+    filter:blur(1px);transform:rotate(-22deg);will-change:transform;
+    background:
+      radial-gradient(ellipse at center,rgba(255,255,255,.95) 0 1%,rgba(190,150,255,.65) 4%,rgba(105,100,235,.32) 13%,rgba(40,90,190,.13) 30%,transparent 68%),
+      repeating-radial-gradient(ellipse at center,transparent 0 12px,rgba(160,115,255,.11) 15px 20px,transparent 24px 37px);
+    box-shadow:0 0 110px rgba(100,80,255,.22);
+}
+.galaxy::after{content:"";position:absolute;inset:35% 4%;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);filter:blur(13px)}
+.galaxy.one{top:-80px;right:-110px}
+.galaxy.two{bottom:-130px;left:-120px;width:500px;height:300px;opacity:.16;transform:rotate(25deg)}
+.planet{position:absolute;border-radius:50%;will-change:transform;transform:translate3d(0,0,0)}
+.planet::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 28% 23%,rgba(255,255,255,.22),transparent 13%,rgba(0,0,0,.18) 58%,rgba(0,0,0,.58) 100%);mix-blend-mode:screen;opacity:.72}
+.planet-a{
+    width:105px;height:105px;top:17%;left:7%;
+    background:
+      radial-gradient(ellipse at 58% 45%,transparent 0 35%,rgba(65,150,80,.68) 36% 41%,transparent 43%),
+      radial-gradient(ellipse at 35% 65%,rgba(55,135,72,.72) 0 10%,transparent 12%),
+      radial-gradient(ellipse at 67% 28%,rgba(66,145,76,.65) 0 9%,transparent 12%),
+      repeating-linear-gradient(8deg,rgba(255,255,255,.07) 0 4px,rgba(20,75,135,.08) 5px 10px),
+      radial-gradient(circle at 34% 27%,#65b9ec,#2779b9 38%,#125087 62%,#061a37 86%);
+    box-shadow:inset -18px -14px 28px rgba(0,0,0,.68),inset 7px 5px 14px rgba(255,255,255,.12),0 0 42px rgba(50,135,230,.30);
+}
+.planet-a::before{content:"";position:absolute;inset:8%;border-radius:50%;background:repeating-linear-gradient(-18deg,transparent 0 12px,rgba(255,255,255,.10) 13px 16px,transparent 17px 27px);filter:blur(2px);opacity:.75}
+.planet-b{
+    width:70px;height:70px;top:62%;right:11%;
+    background:
+      repeating-linear-gradient(12deg,rgba(255,220,170,.20) 0 5px,rgba(110,65,38,.16) 6px 10px,rgba(220,180,125,.13) 11px 14px),
+      radial-gradient(circle at 34% 26%,#e6b979,#ad7447 40%,#603522 67%,#21100b 91%);
+    box-shadow:inset -15px -10px 20px rgba(0,0,0,.72),inset 6px 5px 12px rgba(255,240,200,.10),0 0 30px rgba(230,160,85,.24);
+}
+.planet-b::before{content:"";position:absolute;width:170%;height:42%;left:-35%;top:29%;border:7px solid rgba(214,178,122,.38);border-left-color:rgba(110,82,57,.55);border-right-color:rgba(235,207,166,.28);border-radius:50%;transform:rotate(-18deg);box-shadow:0 0 0 3px rgba(255,225,180,.07),0 0 15px rgba(220,170,100,.12)}
+.planet-c{
+    width:44px;height:44px;top:38%;right:29%;
+    background:
+      radial-gradient(circle at 30% 28%,#e7e9ec,#aeb3bb 38%,#707680 68%,#2d3138 100%);
+    box-shadow:inset -8px -7px 12px rgba(0,0,0,.65),inset 4px 3px 7px rgba(255,255,255,.12),0 0 18px rgba(180,190,205,.16);
+}
+.planet-c::before{content:"";position:absolute;width:8px;height:6px;border-radius:50%;background:rgba(45,48,54,.35);top:24%;left:25%;box-shadow:15px 10px 0 2px rgba(45,48,54,.25),-3px 17px 0 1px rgba(45,48,54,.27),12px 25px 0 1px rgba(45,48,54,.18)}
+.ring{position:absolute;width:155%;height:42%;left:-27%;top:28%;border:2px solid rgba(240,210,160,.50);border-radius:50%;transform:rotate(-18deg);box-shadow:0 0 8px rgba(255,205,135,.20)}
+body.light .space-bg{opacity:.48;background:radial-gradient(ellipse at 50% 45%,rgba(90,135,220,.12),transparent 48%),linear-gradient(180deg,#edf4fc,#f7faff)}
+body.light .space-bg .stars{opacity:.22}
+body.light .galaxy{opacity:.09}
+body.light .planet{opacity:.28}
+
+/* ===== PREMIUM THEME SWITCH ===== */
+.themeToggle{
+    position:relative;width:78px;height:40px;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:4px;
+    cursor:pointer;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(145deg,#101827,#03050a);
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.08),0 7px 24px rgba(0,0,0,.38),0 0 20px rgba(75,125,220,.10);
+    transition:background .4s ease,border-color .4s ease,box-shadow .4s ease,transform .18s ease;overflow:hidden;
+}
+.themeToggle::before{content:"";position:absolute;left:4px;top:4px;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#64748b,#273449 42%,#0b1220 100%);box-shadow:0 3px 10px rgba(0,0,0,.5),inset 0 1px 2px rgba(255,255,255,.16);transition:transform .42s cubic-bezier(.2,.8,.2,1),background .4s,box-shadow .4s}
+.themeToggle:hover{transform:translateY(-1px);box-shadow:inset 0 1px 1px rgba(255,255,255,.1),0 10px 28px rgba(0,0,0,.45),0 0 24px rgba(75,145,255,.16)}
+.themeToggle:active{transform:scale(.96)}
+.themeToggle:focus-visible{outline:2px solid rgba(100,180,255,.9);outline-offset:3px}
+.themeToggle .themeIcon{position:relative;z-index:2;width:32px;height:32px;display:grid;place-items:center;font-size:15px;line-height:1;opacity:.42;transition:opacity .35s,filter .35s,transform .35s}
+.themeToggle .moon{opacity:1}.themeToggle .sun{opacity:.35}
+body.light .themeToggle{background:linear-gradient(145deg,#dfe8f5,#f9fbff);border-color:rgba(60,100,150,.18);box-shadow:inset 0 1px 2px rgba(255,255,255,.95),0 8px 25px rgba(30,70,120,.16)}
+body.light .themeToggle::before{transform:translateX(38px);background:radial-gradient(circle at 35% 30%,#fff7bd,#ffd45a 52%,#f59e0b 100%);box-shadow:0 3px 12px rgba(245,158,11,.25),0 0 17px rgba(255,190,55,.45)}
+body.light .themeToggle .moon{opacity:.28}.themeToggle .sun{filter:drop-shadow(0 0 3px rgba(255,190,50,.2))}
+body.light .themeToggle .sun{opacity:1;filter:drop-shadow(0 0 7px rgba(245,158,11,.58))}
+@media(max-width:600px){.themeToggle{width:66px;height:36px}.themeToggle::before{width:28px;height:28px}.themeToggle .themeIcon{width:28px;height:28px;font-size:14px}body.light .themeToggle::before{transform:translateX(30px)}}
+
+@keyframes gridMove{from{background-position:0 0}to{background-position:0 55px}}
+
+@media(max-width:600px){
+    .themeToggle{top:15px;left:12px;width:58px;height:32px}
+    .themeToggle .themeIcon{width:24px;height:24px;font-size:14px}
+    body.light .themeToggle .themeIcon{transform:translateX(26px)}
+}
+
+
+/* ===== FINAL DARK NIGHT POLISH ===== */
+body:not(.light){
+    --bg:#03050b;
+    --text:#f5f7fb;
+    --muted:#8e98aa;
+    --panel:#090d15;
+    --panel2:#0d121c;
+    --panel3:#111823;
+    --border:#1b2534;
+    --softBorder:#151e2b;
+    background:#03050b;
+}
+body:not(.light)::before{
+    background:
+      radial-gradient(circle at 18% 12%,rgba(54,104,190,.09),transparent 25%),
+      radial-gradient(circle at 82% 72%,rgba(104,62,175,.07),transparent 28%),
+      radial-gradient(circle at 50% 110%,rgba(30,120,150,.05),transparent 24%);
+    filter:blur(7px);
+    opacity:.85;
+}
+body:not(.light)::after{
+    opacity:.16;
+    background-image:
+      linear-gradient(rgba(150,180,220,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(150,180,220,.035) 1px,transparent 1px);
+    background-size:70px 70px;
+}
+body:not(.light) .space-bg{
+    background:
+      radial-gradient(ellipse at 50% 115%,rgba(38,68,130,.12),transparent 52%),
+      radial-gradient(ellipse at 12% 18%,rgba(76,54,145,.07),transparent 35%),
+      #02040a;
+}
+body:not(.light) .space-bg .stars{opacity:.38}
+body:not(.light) .galaxy{opacity:.13;filter:blur(1.5px)}
+body:not(.light) .galaxy.two{opacity:.10}
+body:not(.light) .searchBox,
+body:not(.light) .favoriteMenu,
+body:not(.light) .filterMenu,
+body:not(.light) .card,
+body:not(.light) .detailHeader,
+body:not(.light) .infoBox,
+body:not(.light) .gameCard,
+body:not(.light) .comment{
+    box-shadow:0 12px 35px rgba(0,0,0,.28);
+}
+body:not(.light) .card,
+body:not(.light) .gameCard,
+body:not(.light) .detailHeader{
+    background:linear-gradient(145deg,rgba(13,18,28,.96),rgba(6,10,17,.97));
+    border-color:#1a2432;
+}
+body:not(.light) .card:hover{
+    border-color:#31445d;
+    box-shadow:0 18px 45px rgba(0,0,0,.38),0 0 24px rgba(65,125,210,.07);
+}
+body:not(.light) .searchBox input,
+body:not(.light) .filterBtn,
+body:not(.light) .filterMenu,
+body:not(.light) #favoriteMenu,
+body:not(.light) .favoriteItem,
+body:not(.light) .filterOption,
+body:not(.light) .backBtn,
+body:not(.light) .infoBox,
+body:not(.light) .gameCard,
+body:not(.light) .smallBtn,
+body:not(.light) .favoriteBtn,
+body:not(.light) .videoBtn,
+body:not(.light) .commentForm input,
+body:not(.light) .comment{
+    background:#0a0f17;
+    border-color:#1b2533;
+}
+body:not(.light) .searchBox input:focus{
+    border-color:#3b6b9e;
+    box-shadow:0 0 22px rgba(55,125,210,.10);
+}
+body:not(.light) .themeToggle{
+    background:linear-gradient(145deg,#0b1220,#02050b);
+    border-color:#263449;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.06),0 7px 24px rgba(0,0,0,.42),0 0 18px rgba(60,120,210,.08);
+}
+body:not(.light) .themeToggle::before{
+    background:radial-gradient(circle at 35% 28%,#5f7088,#29384d 45%,#0a101a 100%);
+}
+body:not(.light) .themeToggle .moon{filter:drop-shadow(0 0 6px rgba(180,210,255,.28))}
+
+
+/* ===== DAY/NIGHT SPACE - VISIBLE IN BOTH MODES ===== */
+body.light .space-bg{
+  opacity:1 !important;
+  background:
+    radial-gradient(ellipse at 50% 105%,rgba(90,105,125,.18),transparent 52%),
+    radial-gradient(ellipse at 12% 18%,rgba(80,90,105,.10),transparent 34%),
+    linear-gradient(180deg,#eef1f5 0%,#e3e7ec 55%,#d8dde4 100%) !important;
+}
+body.light .space-bg .stars{opacity:.42 !important}
+body.light .galaxy{opacity:.16 !important;filter:blur(1px) grayscale(.25) !important}
+body.light .galaxy.two{opacity:.13 !important}
+body.light .planet{opacity:1 !important;filter:grayscale(.82) contrast(1.12) brightness(.72) !important}
+body.light .planet-a{
+  background:
+    radial-gradient(ellipse at 58% 45%,transparent 0 35%,rgba(72,82,88,.72) 36% 41%,transparent 43%),
+    radial-gradient(ellipse at 35% 65%,rgba(52,62,68,.75) 0 10%,transparent 12%),
+    radial-gradient(ellipse at 67% 28%,rgba(65,75,82,.70) 0 9%,transparent 12%),
+    repeating-linear-gradient(8deg,rgba(255,255,255,.09) 0 4px,rgba(20,25,30,.09) 5px 10px),
+    radial-gradient(circle at 34% 27%,#9da5ad,#5e6670 38%,#343b43 62%,#11151a 86%) !important;
+  box-shadow:inset -18px -14px 28px rgba(0,0,0,.70),inset 7px 5px 14px rgba(255,255,255,.15),0 0 36px rgba(30,35,42,.22) !important;
+}
+body.light .planet-b{
+  background:
+    repeating-linear-gradient(12deg,rgba(225,225,225,.15) 0 5px,rgba(50,55,60,.17) 6px 10px,rgba(180,185,190,.13) 11px 14px),
+    radial-gradient(circle at 34% 26%,#9a9fa5,#5b6067 40%,#30343a 67%,#111318 91%) !important;
+  box-shadow:inset -15px -10px 20px rgba(0,0,0,.76),inset 6px 5px 12px rgba(255,255,255,.11),0 0 28px rgba(30,35,42,.20) !important;
+}
+body.light .planet-b::before{border-color:rgba(80,85,92,.52);border-left-color:rgba(35,40,46,.65);border-right-color:rgba(170,175,182,.30);box-shadow:0 0 0 3px rgba(30,35,42,.08),0 0 15px rgba(40,45,52,.13)}
+body.light .planet-c{
+  background:radial-gradient(circle at 30% 28%,#c8ccd1,#858b92 38%,#50565e 68%,#20242a 100%) !important;
+  box-shadow:inset -8px -7px 12px rgba(0,0,0,.72),inset 4px 3px 7px rgba(255,255,255,.13),0 0 16px rgba(30,35,42,.18) !important;
+}
+body.light .planet-c::before{background:rgba(35,39,44,.40);box-shadow:15px 10px 0 2px rgba(35,39,44,.28),-3px 17px 0 1px rgba(35,39,44,.30),12px 25px 0 1px rgba(35,39,44,.22)}
+body.light .ring{border-color:rgba(205,208,212,.72);box-shadow:0 0 8px rgba(35,40,45,.18)}
+/* Make the ringed planet slowly orbit/rotate in both themes. */
+.planet-b .ring{animation:none !important; transform:rotate(-18deg) scaleX(1) !important}
+.planet-b{animation:none !important}
+.galaxy.one{animation:none !important}
+.galaxy.two{animation:none !important}
+@keyframes ringOrbit{from{transform:rotate(-18deg) scaleX(1)}to{transform:rotate(342deg) scaleX(1.03)}}
+@keyframes planetFloat{from{margin-top:-8px;margin-right:0}to{margin-top:10px;margin-right:18px}}
+@keyframes galaxyFlyOne{from{margin-right:0;margin-top:0;transform:rotate(-22deg) scale(1)}to{margin-right:-70px;margin-top:45px;transform:rotate(-12deg) scale(1.08)}}
+@keyframes galaxyFlyTwo{from{margin-left:0;margin-bottom:0;transform:rotate(25deg) scale(1)}to{margin-left:65px;margin-bottom:35px;transform:rotate(15deg) scale(1.06)}}
+@media(max-width:600px){
+  .planet-a{transform:scale(.8)}
+  .planet-b{transform:scale(.82)}
+  .galaxy{transform:scale(.72)}
+}
+
+
+/* ===== SPACE GAME: CLEAN B/W THEME SWITCH ===== */
+.themeToggle{position:relative!important;width:70px!important;height:34px!important;padding:0!important;border:2px solid #111!important;border-radius:999px!important;background:#fff!important;box-shadow:none!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important}
+.themeToggle::before{content:""!important;position:absolute!important;left:3px!important;top:3px!important;width:26px!important;height:26px!important;border-radius:50%!important;background:#111!important;transform:none!important;transition:transform .3s ease!important;box-shadow:none!important}
+.themeIcon{position:absolute!important;z-index:2!important;width:26px!important;height:26px!important;display:grid!important;place-items:center!important;font-size:14px!important;color:#fff!important;opacity:0!important;transform:none!important}
+body:not(.light) .themeIcon.moon{opacity:1!important}
+body:not(.light) .themeIcon.sun{opacity:0!important}
+body.light .themeToggle{background:#111!important;border-color:#111!important}
+body.light .themeToggle::before{transform:translateX(34px)!important;background:#fff!important}
+body.light .themeIcon.moon{opacity:0!important}
+body.light .themeIcon.sun{opacity:1!important;color:#111!important}
+header{display:flex!important;align-items:center!important;justify-content:space-between!important}
+header .logo{order:2!important}
+header .themeToggle{order:1!important}
+header .subtitle{order:0!important}
+
+/* ===== SPACE GAME: REALISTIC EARTH + MORE PLANETS ===== */
+.space-bg .planet-a{
+  background:
+    radial-gradient(circle at 30% 25%,rgba(255,255,255,.48) 0 3%,transparent 4%),
+    radial-gradient(ellipse at 25% 28%,#2f7f3f 0 7%,transparent 8%),
+    radial-gradient(ellipse at 62% 35%,#4d9b45 0 8%,transparent 10%),
+    radial-gradient(ellipse at 40% 68%,#397a3e 0 10%,transparent 12%),
+    radial-gradient(ellipse at 76% 66%,#6aa84f 0 7%,transparent 9%),
+    radial-gradient(circle at 50% 48%,#1f6f9d 0 34%,#174f7d 48%,#0b2949 72%,#020814 100%);
+  box-shadow:
+    inset -22px -18px 34px rgba(0,0,0,.78),
+    inset 10px 7px 18px rgba(255,255,255,.20),
+    0 0 18px rgba(66,153,225,.35),
+    0 0 55px rgba(45,120,180,.20);
+  overflow:hidden;
+}
+.space-bg .planet-a::before{
+  content:"";position:absolute;inset:4%;border-radius:50%;
+  background:
+    radial-gradient(ellipse at 22% 30%,rgba(255,255,255,.24) 0 7%,transparent 10%),
+    radial-gradient(ellipse at 62% 70%,rgba(255,255,255,.14) 0 9%,transparent 13%),
+    repeating-linear-gradient(165deg,transparent 0 11px,rgba(255,255,255,.055) 12px 15px,transparent 16px 25px);
+  mix-blend-mode:screen;opacity:.65;pointer-events:none;
+}
+.space-bg .planet-a::after{
+  content:"";position:absolute;inset:-3%;border-radius:50%;
+  box-shadow:inset 14px 10px 22px rgba(255,255,255,.10),inset -20px -18px 30px rgba(0,0,0,.58);
+  pointer-events:none;
+}
+/* Extra planets */
+.space-bg .planet-d,.space-bg .planet-e,.space-bg .planet-f{
+  position:absolute;border-radius:50%;pointer-events:none;z-index:1;
+}
+.space-bg .planet-d{width:78px;height:78px;left:13%;top:18%;
+  background:radial-gradient(circle at 30% 25%,#e7b56d,#a85c32 42%,#5a2d22 73%,#170f16 100%);
+  box-shadow:inset -13px -10px 20px rgba(0,0,0,.75),inset 5px 4px 9px rgba(255,255,255,.18),0 0 24px rgba(190,105,55,.18);
+}
+.space-bg .planet-e{width:54px;height:54px;right:12%;top:48%;
+  background:radial-gradient(circle at 32% 25%,#d9dce0,#8c9299 43%,#454b52 74%,#171b20 100%);
+  box-shadow:inset -10px -8px 15px rgba(0,0,0,.72),inset 4px 3px 7px rgba(255,255,255,.16),0 0 18px rgba(190,195,200,.16);
+}
+.space-bg .planet-f{width:42px;height:42px;left:30%;bottom:12%;
+  background:radial-gradient(circle at 30% 24%,#d9b9e8,#8c5aa8 45%,#402454 75%,#140d1d 100%);
+  box-shadow:inset -8px -7px 13px rgba(0,0,0,.74),inset 4px 3px 6px rgba(255,255,255,.13),0 0 18px rgba(150,90,190,.18);
+}
+body.light .space-bg .planet-a{filter:none !important;opacity:1 !important}
+body.light .space-bg .planet-d,body.light .space-bg .planet-e,body.light .space-bg .planet-f{opacity:.82;filter:grayscale(.45) contrast(1.05)}
+.planet-b .ring{animation:none !important;transform:rotate(-18deg) scaleX(1) !important}
+.planet-b{animation:none !important}
+.galaxy.one,.galaxy.two{animation:none !important}
+/* Space Game stays perfectly still */
+header .logo{animation:none !important;transform:none !important}
+header .logo span{animation:none !important;transform:none !important}
+@media(max-width:600px){
+ .space-bg .planet-d{width:52px;height:52px}.space-bg .planet-e{width:38px;height:38px}.space-bg .planet-f{width:30px;height:30px}
+}
+
+/* ===== REALISTIC EARTH + CLEAN SPACE LAYOUT ===== */
+.planet-a{width:170px!important;height:170px!important;left:9%!important;top:16%!important;background:radial-gradient(circle at 32% 25%,#69d2ff,#147fc0 45%,#064b82 72%,#02182f 100%)!important;box-shadow:inset -25px -20px 34px rgba(0,0,0,.62),inset 10px 8px 18px rgba(255,255,255,.16),0 0 55px rgba(45,155,240,.28)!important;overflow:visible!important;z-index:3!important}
+.planet-a .earthMap{position:absolute;inset:0;width:100%;height:100%;display:block;border-radius:50%;filter:saturate(1.08) contrast(1.04);z-index:2}
+.planet-a::before{z-index:4!important;pointer-events:none!important;opacity:.36!important}
+.planet-a::after{z-index:5!important;opacity:.58!important}
+/* Remove the extra overlapping planet and spread the remaining worlds out. */
+.space-bg .planet-d{display:none!important}
+.space-bg .planet-e{width:58px;height:58px!important;right:7%!important;top:30%!important;z-index:2!important}
+.space-bg .planet-f{width:48px;height:48px!important;left:34%!important;bottom:10%!important;z-index:2!important}
+.planet-c{width:48px!important;height:48px!important;top:45%!important;right:16%!important;z-index:2!important}
+.planet-b{width:82px!important;height:82px!important;top:68%!important;right:25%!important;z-index:2!important}
+.planet-b .ring{animation:none!important;transform:rotate(-18deg) scaleX(1)!important}
+.planet-b{animation:none!important}
+/* Galaxies stay distant, soft and colorful instead of sitting on top of the planets. */
+.galaxy.one{top:-145px!important;right:-180px!important;width:520px!important;height:310px!important;opacity:.10!important;filter:saturate(.75) brightness(1.35)!important}
+.galaxy.two{bottom:-180px!important;left:-180px!important;width:560px!important;height:330px!important;opacity:.09!important;filter:saturate(.72) brightness(1.45)!important}
+.galaxy.one,.galaxy.two{animation:none!important;z-index:0!important;pointer-events:none!important}
+header .logo,header .logo span{animation:none!important;transform:none!important}
+@media(max-width:600px){
+ .planet-a{width:120px!important;height:120px!important;left:5%!important;top:18%!important}
+ .space-bg .planet-e{width:42px!important;height:42px!important;right:5%!important;top:31%!important}
+ .space-bg .planet-f{width:34px!important;height:34px!important;left:28%!important;bottom:9%!important}
+ .planet-b{width:62px!important;height:62px!important;right:21%!important;top:70%!important}
+ .planet-c{width:38px!important;height:38px!important;right:9%!important;top:48%!important}
+ .galaxy.one{width:380px!important;height:230px!important;right:-145px!important;top:-110px!important}
+ .galaxy.two{width:400px!important;height:240px!important;left:-145px!important;bottom:-130px!important}
+}
+
+/* ===== Tiny twinkling stars across the whole space ===== */
+.twinkle-stars{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  overflow:hidden;
+}
+.twinkle-stars span{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  opacity:0;
+  box-shadow:0 0 4px rgba(255,255,255,.8);
+  animation:tinyStarTwinkle var(--twinkle-duration,4s) ease-in-out infinite;
+  animation-delay:var(--twinkle-delay,0s);
+}
+.twinkle-stars span:nth-child(3n){
+  width:1px;height:1px;
+  box-shadow:0 0 3px rgba(255,255,255,.7);
+}
+.twinkle-stars span:nth-child(5n){
+  width:2px;height:2px;
+  box-shadow:0 0 5px rgba(190,225,255,.9);
+}
+@keyframes tinyStarTwinkle{
+  0%,100%{opacity:0;transform:scale(.45)}
+  45%{opacity:.85;transform:scale(1)}
+  58%{opacity:.95;transform:scale(1.12)}
+  72%{opacity:.15;transform:scale(.65)}
+}
+
+/* Light mode: warm twinkling stars + purple ringed planet */
+body.light .stars::after{
+  background-image:
+    radial-gradient(circle, rgba(255,210,55,.98) 0 1px, transparent 1.7px),
+    radial-gradient(circle, rgba(255,224,90,.9) 0 1px, transparent 1.6px),
+    radial-gradient(circle, rgba(255,190,30,.9) 0 .8px, transparent 1.5px);
+  background-size: 97px 83px, 131px 119px, 173px 157px;
+  animation: lightStarTwinkle 2.8s ease-in-out infinite alternate;
+}
+@keyframes lightStarTwinkle{0%{opacity:.28}45%{opacity:.9}100%{opacity:.42}}
+body.light .planet-b{
+  background: radial-gradient(circle at 35% 30%, #d9a8ff 0%, #a855d8 38%, #7b2cbf 72%, #4a176f 100%) !important;
+  box-shadow: 0 0 28px rgba(168,85,216,.45), inset -10px -12px 18px rgba(48,10,70,.35) !important;
+}
+body.light .planet-b .ring{
+  border-color: rgba(216,170,255,.95) !important;
+  box-shadow: 0 0 10px rgba(216,170,255,.6), inset 0 0 7px rgba(216,170,255,.35) !important;
+}
+
+/* Night Mode active filters: white glow */
+body:not(.light) .filter-btn.active,
+body:not(.light) .platform-btn.active,
+body:not(.light) .favorite-btn.active,
+body:not(.light) button.active[data-filter],
+body:not(.light) button.active[data-platform],
+body:not(.light) button.active[data-favorite]{
+  background:#fff !important; color:#050505 !important;
+  border-color:#fff !important;
+  box-shadow:0 0 10px rgba(255,255,255,.75),0 0 22px rgba(255,255,255,.28) !important;
+}
 </style>
 </head>
 
 <body>
+<div class="space-bg" aria-hidden="true">
+    <div class="stars"></div>
+    <div class="galaxy one"></div>
+    <div class="galaxy two"></div>
+    <div class="planet planet-a">
+      <svg class="earthMap" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <radialGradient id="earthOcean" cx="34%" cy="25%" r="78%"><stop offset="0" stop-color="#58c7f3"/><stop offset=".38" stop-color="#1685c4"/><stop offset=".72" stop-color="#07538f"/><stop offset="1" stop-color="#021d3d"/></radialGradient>
+          <linearGradient id="earthLand" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9dcc65"/><stop offset=".55" stop-color="#4f9b50"/><stop offset="1" stop-color="#1f633b"/></linearGradient>
+          <filter id="earthBlur"><feGaussianBlur stdDeviation="1.4"/></filter>
+          <clipPath id="earthClip"><circle cx="100" cy="100" r="98"/></clipPath>
+        </defs>
+        <circle cx="100" cy="100" r="98" fill="url(#earthOcean)"/>
+        <g clip-path="url(#earthClip)" fill="url(#earthLand)" stroke="#b8df86" stroke-width=".7" opacity=".98">
+          <!-- North + South America -->
+          <path d="M28 43 C18 35 15 27 22 21 C30 15 39 20 43 29 L48 39 L43 49 L39 61 L35 72 L39 83 L35 92 L30 101 L28 115 L22 125 L18 117 L20 103 L15 94 L20 84 L18 72 L23 63 L20 53 Z"/>
+          <path d="M39 112 C48 112 54 119 57 129 L62 142 L59 153 L53 165 L49 178 L42 188 L37 178 L39 166 L34 155 L37 144 L32 134 Z"/>
+          <!-- Europe -->
+          <path d="M88 43 L96 37 L105 39 L111 35 L119 39 L126 37 L132 42 L128 48 L118 48 L112 52 L103 49 L96 52 L88 49 L84 45 Z"/>
+          <!-- Africa -->
+          <path d="M92 55 L105 55 L116 62 L120 74 L116 87 L111 99 L105 111 L101 126 L94 139 L86 128 L82 116 L78 105 L80 93 L76 82 L80 70 L85 63 Z"/>
+          <!-- Asia -->
+          <path d="M119 48 L130 43 L143 45 L153 41 L165 47 L177 54 L185 62 L179 70 L168 68 L159 73 L148 70 L140 75 L132 69 L123 67 L117 59 Z"/>
+          <path d="M151 72 L161 75 L169 82 L166 89 L158 88 L153 82 Z"/>
+          <!-- India / SE Asia -->
+          <path d="M135 70 L142 78 L140 89 L134 96 L129 88 L130 78 Z"/>
+          <path d="M166 85 L173 89 L177 96 L171 99 L166 94 Z"/>
+          <!-- Australia -->
+          <path d="M153 125 C161 119 173 119 181 125 L187 135 L183 147 L173 153 L161 150 L153 143 L149 134 Z"/>
+          <!-- Greenland -->
+          <path d="M61 18 L72 14 L82 19 L80 29 L71 35 L62 30 L57 23 Z"/>
+        </g>
+        <!-- soft polar ice + clouds -->
+        <g clip-path="url(#earthClip)" fill="white" opacity=".18" filter="url(#earthBlur)">
+          <path d="M4 57 C35 48 55 58 74 52 S115 49 137 55 S177 54 201 48 L201 62 C171 68 150 62 126 66 S78 66 54 70 S23 67 4 73Z"/>
+          <path d="M-4 115 C27 108 48 119 70 113 S111 106 134 116 S173 121 204 110 L204 126 C174 135 150 130 129 126 S83 128 59 130 S25 127 -4 134Z"/>
+        </g>
+        <ellipse cx="78" cy="68" rx="58" ry="72" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="8"/>
+        <circle cx="100" cy="100" r="97" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="planet planet-b"><span class="ring"></span></div>
+    <div class="planet planet-c"></div>
+    <div class="planet-e"></div>
+    <div class="planet-f"></div>
+
+    <!-- Tiny stars: fixed in place, softly appearing and disappearing -->
+    <div class="twinkle-stars" aria-hidden="true">
+      <span style="left:3%;top:8%;--twinkle-delay:0.00s;--twinkle-duration:3.20s"></span>
+      <span style="left:8%;top:21%;--twinkle-delay:-0.37s;--twinkle-duration:3.75s"></span>
+      <span style="left:13%;top:36%;--twinkle-delay:-0.74s;--twinkle-duration:4.30s"></span>
+      <span style="left:18%;top:58%;--twinkle-delay:-1.11s;--twinkle-duration:4.85s"></span>
+      <span style="left:24%;top:78%;--twinkle-delay:-1.48s;--twinkle-duration:5.40s"></span>
+      <span style="left:31%;top:12%;--twinkle-delay:-1.85s;--twinkle-duration:5.95s"></span>
+      <span style="left:37%;top:30%;--twinkle-delay:-2.22s;--twinkle-duration:6.50s"></span>
+      <span style="left:43%;top:48%;--twinkle-delay:-2.59s;--twinkle-duration:3.20s"></span>
+      <span style="left:49%;top:68%;--twinkle-delay:-2.96s;--twinkle-duration:3.75s"></span>
+      <span style="left:56%;top:88%;--twinkle-delay:-3.33s;--twinkle-duration:4.30s"></span>
+      <span style="left:61%;top:18%;--twinkle-delay:-3.70s;--twinkle-duration:4.85s"></span>
+      <span style="left:67%;top:41%;--twinkle-delay:-4.07s;--twinkle-duration:5.40s"></span>
+      <span style="left:73%;top:62%;--twinkle-delay:-4.44s;--twinkle-duration:5.95s"></span>
+      <span style="left:79%;top:83%;--twinkle-delay:-4.81s;--twinkle-duration:6.50s"></span>
+      <span style="left:85%;top:8%;--twinkle-delay:-5.18s;--twinkle-duration:3.20s"></span>
+      <span style="left:91%;top:28%;--twinkle-delay:-5.55s;--twinkle-duration:3.75s"></span>
+      <span style="left:95%;top:52%;--twinkle-delay:-5.92s;--twinkle-duration:4.30s"></span>
+      <span style="left:12%;top:91%;--twinkle-delay:0.00s;--twinkle-duration:4.85s"></span>
+      <span style="left:27%;top:44%;--twinkle-delay:-0.37s;--twinkle-duration:5.40s"></span>
+      <span style="left:45%;top:90%;--twinkle-delay:-0.74s;--twinkle-duration:5.95s"></span>
+      <span style="left:58%;top:55%;--twinkle-delay:-1.11s;--twinkle-duration:6.50s"></span>
+      <span style="left:70%;top:7%;--twinkle-delay:-1.48s;--twinkle-duration:3.20s"></span>
+      <span style="left:82%;top:39%;--twinkle-delay:-1.85s;--twinkle-duration:3.75s"></span>
+      <span style="left:88%;top:72%;--twinkle-delay:-2.22s;--twinkle-duration:4.30s"></span>
+      <span style="left:97%;top:18%;--twinkle-delay:-2.59s;--twinkle-duration:4.85s"></span>
+      <span style="left:6%;top:66%;--twinkle-delay:-2.96s;--twinkle-duration:5.40s"></span>
+      <span style="left:16%;top:27%;--twinkle-delay:-3.33s;--twinkle-duration:5.95s"></span>
+      <span style="left:34%;top:74%;--twinkle-delay:-3.70s;--twinkle-duration:6.50s"></span>
+      <span style="left:40%;top:15%;--twinkle-delay:-4.07s;--twinkle-duration:3.20s"></span>
+      <span style="left:52%;top:34%;--twinkle-delay:-4.44s;--twinkle-duration:3.75s"></span>
+      <span style="left:64%;top:82%;--twinkle-delay:-4.81s;--twinkle-duration:4.30s"></span>
+      <span style="left:76%;top:24%;--twinkle-delay:-5.18s;--twinkle-duration:4.85s"></span>
+      <span style="left:90%;top:46%;--twinkle-delay:-5.55s;--twinkle-duration:5.40s"></span>
+      <span style="left:4%;top:48%;--twinkle-delay:-5.92s;--twinkle-duration:5.95s"></span>
+      <span style="left:22%;top:6%;--twinkle-delay:0.00s;--twinkle-duration:6.50s"></span>
+      <span style="left:29%;top:92%;--twinkle-delay:-0.37s;--twinkle-duration:3.20s"></span>
+      <span style="left:47%;top:61%;--twinkle-delay:-0.74s;--twinkle-duration:3.75s"></span>
+      <span style="left:55%;top:20%;--twinkle-delay:-1.11s;--twinkle-duration:4.30s"></span>
+      <span style="left:68%;top:52%;--twinkle-delay:-1.48s;--twinkle-duration:4.85s"></span>
+      <span style="left:84%;top:94%;--twinkle-delay:-1.85s;--twinkle-duration:5.40s"></span>
+      <span style="left:93%;top:63%;--twinkle-delay:-2.22s;--twinkle-duration:5.95s"></span>
+      <span style="left:10%;top:35%;--twinkle-delay:-2.59s;--twinkle-duration:6.50s"></span>
+      <span style="left:25%;top:70%;--twinkle-delay:-2.96s;--twinkle-duration:3.20s"></span>
+      <span style="left:39%;top:97%;--twinkle-delay:-3.33s;--twinkle-duration:3.75s"></span>
+      <span style="left:59%;top:5%;--twinkle-delay:-3.70s;--twinkle-duration:4.30s"></span>
+      <span style="left:72%;top:92%;--twinkle-delay:-4.07s;--twinkle-duration:4.85s"></span>
+      <span style="left:81%;top:58%;--twinkle-delay:-4.44s;--twinkle-duration:5.40s"></span>
+      <span style="left:98%;top:82%;--twinkle-delay:-4.81s;--twinkle-duration:5.95s"></span>
+      <span style="left:15%;top:55%;--twinkle-delay:-5.18s;--twinkle-duration:6.50s"></span>
+      <span style="left:33%;top:39%;--twinkle-delay:-5.55s;--twinkle-duration:3.20s"></span>
+      <span style="left:50%;top:76%;--twinkle-delay:-5.92s;--twinkle-duration:3.75s"></span>
+      <span style="left:63%;top:33%;--twinkle-delay:0.00s;--twinkle-duration:4.30s"></span>
+      <span style="left:77%;top:71%;--twinkle-delay:-0.37s;--twinkle-duration:4.85s"></span>
+      <span style="left:87%;top:24%;--twinkle-delay:-0.74s;--twinkle-duration:5.40s"></span>
+      <span style="left:94%;top:38%;--twinkle-delay:-1.11s;--twinkle-duration:5.95s"></span>
+      <span style="left:7%;top:83%;--twinkle-delay:-1.48s;--twinkle-duration:6.50s"></span>
+      <span style="left:20%;top:18%;--twinkle-delay:-1.85s;--twinkle-duration:3.20s"></span>
+      <span style="left:36%;top:56%;--twinkle-delay:-2.22s;--twinkle-duration:3.75s"></span>
+      <span style="left:54%;top:95%;--twinkle-delay:-2.59s;--twinkle-duration:4.30s"></span>
+      <span style="left:69%;top:67%;--twinkle-delay:-2.96s;--twinkle-duration:4.85s"></span>
+      <span style="left:80%;top:13%;--twinkle-delay:-3.33s;--twinkle-duration:5.40s"></span>
+      <span style="left:92%;top:90%;--twinkle-delay:-3.70s;--twinkle-duration:5.95s"></span>
+      <span style="left:42%;top:8%;--twinkle-delay:-4.07s;--twinkle-duration:6.50s"></span>
+      <span style="left:66%;top:96%;--twinkle-delay:-4.44s;--twinkle-duration:3.20s"></span>
+      <span style="left:74%;top:45%;--twinkle-delay:-4.81s;--twinkle-duration:3.75s"></span>
+      <span style="left:96%;top:7%;--twinkle-delay:-5.18s;--twinkle-duration:4.30s"></span>
+      <span style="left:18%;top:96%;--twinkle-delay:-5.55s;--twinkle-duration:4.85s"></span>
+      <span style="left:28%;top:31%;--twinkle-delay:-5.92s;--twinkle-duration:5.40s"></span>
+      <span style="left:48%;top:18%;--twinkle-delay:0.00s;--twinkle-duration:5.95s"></span>
+      <span style="left:60%;top:47%;--twinkle-delay:-0.37s;--twinkle-duration:6.50s"></span>
+      <span style="left:71%;top:29%;--twinkle-delay:-0.74s;--twinkle-duration:3.20s"></span>
+      <span style="left:83%;top:80%;--twinkle-delay:-1.11s;--twinkle-duration:3.75s"></span>
+      <span style="left:89%;top:57%;--twinkle-delay:-1.48s;--twinkle-duration:4.30s"></span>
+      <span style="left:98%;top:34%;--twinkle-delay:-1.85s;--twinkle-duration:4.85s"></span>
+      <span style="left:5%;top:15%;--twinkle-delay:-2.22s;--twinkle-duration:5.40s"></span>
+      <span style="left:14%;top:74%;--twinkle-delay:-2.59s;--twinkle-duration:5.95s"></span>
+      <span style="left:32%;top:10%;--twinkle-delay:-2.96s;--twinkle-duration:6.50s"></span>
+      <span style="left:44%;top:72%;--twinkle-delay:-3.33s;--twinkle-duration:3.20s"></span>
+      <span style="left:57%;top:30%;--twinkle-delay:-3.70s;--twinkle-duration:3.75s"></span>
+      <span style="left:78%;top:96%;--twinkle-delay:-4.07s;--twinkle-duration:4.30s"></span>
+    </div>
+</div>
+
 
 <header>
-    <div class="logo">🎮 <span>Saif Games</span></div>
+<button id="themeToggle" class="themeToggle" type="button" aria-label="تغيير المظهر" title="تغيير Dark / Light Mode">
+    <span class="themeIcon moon">🌙</span>
+    <span class="themeIcon sun">☀️</span>
+</button>
+    <div class="logo">🎮 <span>Space Game</span></div>
     <div class="subtitle">عالم الألعاب في مكان واحد 🔥</div>
 </header>
 
@@ -494,7 +1199,7 @@ footer{text-align:center;color:#666;padding:40px 15px;margin-top:40px}
 </main>
 
 <footer>
-    Saif Games © 2026 🎮
+    Space Game © 2026 🎮
 </footer>
 
 <script>
@@ -1708,6 +2413,58 @@ function escapeHTML(text){
 
     return div.innerHTML;
 }
+
+
+/* =====================================================
+   SPACE PARALLAX
+===================================================== */
+(function(){
+    const layers=document.querySelectorAll('.space-bg .stars,.space-bg .galaxy,.space-bg .planet,.space-bg .planet-d,.space-bg .planet-e,.space-bg .planet-f');
+    let mx=0,my=0,cx=0,cy=0;
+    function move(x,y){mx=(x/window.innerWidth-.5)*2;my=(y/window.innerHeight-.5)*2}
+    window.addEventListener('pointermove',e=>{if(e.pointerType!=='touch')move(e.clientX,e.clientY)},{passive:true});
+    window.addEventListener('touchmove',e=>{if(e.touches[0])move(e.touches[0].clientX,e.touches[0].clientY)},{passive:true});
+    function frame(){
+        cx+=(mx-cx)*.035;cy+=(my-cy)*.035;
+        layers.forEach((el,i)=>{
+            const d=el.classList.contains('planet')?(i%3+.8):(el.classList.contains('galaxy')?.18:.08);
+            const x=cx*d*28,y=cy*d*20;
+            const rot=el.classList.contains('galaxy')?(el.classList.contains('two')?25:-22):0;
+            el.style.transform=`translate3d(${x}px,${y}px,0) rotate(${rot}deg)`;
+        });
+        requestAnimationFrame(frame);
+    }
+    frame();
+})();
+
+/* =====================================================
+   THEME SWITCH
+===================================================== */
+const themeToggle=document.getElementById("themeToggle");
+const savedTheme=localStorage.getItem("saifGamesTheme") || "dark";
+
+if(savedTheme === "light"){
+    document.body.classList.add("light");
+}
+
+function updateThemeButton(){
+    if(document.body.classList.contains("light")){
+        themeToggle.setAttribute("aria-label","التحويل إلى الوضع الداكن");
+        themeToggle.setAttribute("title","Dark Mode 🌙");
+    }else{
+        themeToggle.setAttribute("aria-label","التحويل إلى الوضع الفاتح");
+        themeToggle.setAttribute("title","Light Mode ☀️");
+    }
+}
+
+updateThemeButton();
+
+themeToggle.addEventListener("click",()=>{
+    document.body.classList.toggle("light");
+    const theme=document.body.classList.contains("light") ? "light" : "dark";
+    localStorage.setItem("saifGamesTheme",theme);
+    updateThemeButton();
+});
 
 /* =====================================================
    START
