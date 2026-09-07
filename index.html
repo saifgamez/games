@@ -210,6 +210,39 @@ header{padding:25px 15px 15px;text-align:center}
 .videoBtn:hover{background:#252525;transform:translateY(-3px)}
 
 .comments{margin:35px 0}
+.commentLoopBtn{
+    min-width:68px;height:38px;padding:0 10px;border-radius:10px;
+    border:1px solid #293548;background:#101722;color:#fff;
+    cursor:pointer;font-weight:bold;transition:.25s;
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+.commentLoopBtn:hover{
+    background:#fff;color:#000;border-color:#fff;transform:translateY(-1px);
+}
+.commentLoopBtn:active{transform:scale(.96)}
+.commentLoopCount{
+    min-width:18px;text-align:center;font-variant-numeric:tabular-nums;
+}
+.commentStatus{
+    color:#7f8da3;font-size:13px;margin-top:10px;min-height:18px;
+}
+.comment{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.commentText{flex:1;min-width:0;word-break:break-word;line-height:1.6;}
+.commentActions{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+body.light .commentLoopBtn{
+    background:#f1f5f9;color:#111827;border-color:#cbd5e1;
+}
+body.light .commentLoopBtn:hover{
+    background:#111827;color:#fff;border-color:#111827;
+}
+@media(max-width:600px){
+    .comment{align-items:flex-start}
+    .commentActions{align-self:center}
+    .commentLoopBtn{min-width:62px}
+}
+
 .commentForm{display:flex;gap:10px;margin-top:15px}
 .commentForm input{
     flex:1;background:#111;color:white;border:1px solid #252525;
@@ -1093,6 +1126,7 @@ body:not(.light) button.active[data-favorite]{
         </div>
 
         <div id="commentsList"></div>
+        <div id="commentStatus" class="commentStatus" aria-live="polite"></div>
 
     </section>
 
@@ -1201,6 +1235,9 @@ body:not(.light) button.active[data-favorite]{
 <footer>
     Space Game © 2026 🎮
 </footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
 
 <script>
 
@@ -2325,63 +2362,192 @@ function backToSeries(){
    COMMENTS
 ===================================================== */
 
-function loadComments(){
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDfBcjtvaiaW5foqryyEXF5Rb5bZ2U3nx8",
+    authDomain: "space-gamee.firebaseapp.com",
+    databaseURL: "https://space-gamee-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "space-gamee",
+    storageBucket: "space-gamee.firebasestorage.app",
+    messagingSenderId: "647373310791",
+    appId: "1:647373310791:web:b2ed0dc7df5ec959141a62",
+    measurementId: "G-VRP0152TFZ"
+};
 
-    let comments=[];
+let commentsRef=null;
+let commentsListenerStarted=false;
 
-    try{
-        comments=JSON.parse(
-            localStorage.getItem("saifGamesComments")||"[]"
-        );
+function firebaseConfigIsReady(){
+    return !!(
+        FIREBASE_CONFIG.apiKey &&
+        !FIREBASE_CONFIG.apiKey.includes("PASTE_") &&
+        FIREBASE_CONFIG.projectId &&
+        !FIREBASE_CONFIG.projectId.includes("PASTE_") &&
+        FIREBASE_CONFIG.databaseURL &&
+        !FIREBASE_CONFIG.databaseURL.includes("PASTE_")
+    );
+}
 
-        if(!Array.isArray(comments))comments=[];
-    }catch(error){
-        comments=[];
+function setCommentStatus(message,isError=false){
+    const el=document.getElementById("commentStatus");
+    if(!el)return;
+    el.textContent=message||"";
+    el.style.color=isError ? "#ff8a8a" : "";
+}
+
+function renderComments(comments){
+    const list=document.getElementById("commentsList");
+    if(!list)return;
+
+    if(!comments.length){
+        list.innerHTML="";
+        return;
     }
 
-    const list=document.getElementById("commentsList");
-
-    list.innerHTML="";
-
-    comments.forEach(comment=>{
-
-        list.innerHTML+=`
-            <div class="comment">
-                💬 ${escapeHTML(comment)}
+    list.innerHTML=comments.map(comment=>`
+        <div class="comment" data-comment-id="${escapeHTML(comment.id)}">
+            <div class="commentText">💬 ${escapeHTML(comment.text)}</div>
+            <div class="commentActions">
+                <button class="commentLoopBtn" type="button"
+                    onclick="loopComment('${escapeQuotes(comment.id)}')"
+                    aria-label="لف على الكومنت"
+                    title="لف على الكومنت">
+                    ↩️ <span class="commentLoopCount">${comment.loops}</span>
+                </button>
             </div>
-        `;
+        </div>
+    `).join("");
+}
+
+function loadComments(){
+    if(!commentsRef){
+        const list=document.getElementById("commentsList");
+        if(list)list.innerHTML="";
+        setCommentStatus(
+            firebaseConfigIsReady()
+                ? "جاري الاتصال بالكومنتات..."
+                : "اربط Firebase مرة واحدة علشان الكومنتات تظهر لكل الناس.",
+            !firebaseConfigIsReady()
+        );
+        return;
+    }
+
+    if(commentsListenerStarted)return;
+    commentsListenerStarted=true;
+
+    commentsRef.on("value",snapshot=>{
+        const raw=snapshot.val() || {};
+
+        const comments=Object.entries(raw)
+            .map(([id,value])=>({
+                id,
+                text:String(value?.text ?? ""),
+                loops:Number(value?.loops ?? 0),
+                createdAt:Number(value?.createdAt ?? 0)
+            }))
+            .filter(comment=>comment.text.trim())
+            .sort((a,b)=>b.createdAt-a.createdAt);
+
+        renderComments(comments);
+        setCommentStatus(
+            comments.length
+                ? "الكومنتات واللف متزامنين لكل زوار المنصة."
+                : "مفيش كومنتات لسه."
+        );
+    },error=>{
+        console.error(error);
+        setCommentStatus(
+            "حصلت مشكلة في الاتصال بقاعدة البيانات. راجع إعدادات Firebase.",
+            true
+        );
     });
 }
 
-function addComment(){
-
+async function addComment(){
     const input=document.getElementById("commentInput");
     const text=input.value.trim();
 
     if(!text)return;
 
-    let comments=[];
-
-    try{
-        comments=JSON.parse(
-            localStorage.getItem("saifGamesComments")||"[]"
+    if(!commentsRef){
+        setCommentStatus(
+            "الكومنتات المشتركة مش متوصلة بـ Firebase لسه.",
+            true
         );
-
-        if(!Array.isArray(comments))comments=[];
-    }catch(error){
-        comments=[];
+        return;
     }
 
-    comments.unshift(text);
+    if(text.length>500){
+        setCommentStatus(
+            "الكومنت طويل جدًا، الحد الأقصى 500 حرف.",
+            true
+        );
+        return;
+    }
 
-    localStorage.setItem(
-        "saifGamesComments",
-        JSON.stringify(comments)
-    );
+    try{
+        const newCommentRef=commentsRef.push();
 
-    input.value="";
+        await newCommentRef.set({
+            text:text,
+            loops:0,
+            createdAt:firebase.database.ServerValue.TIMESTAMP
+        });
 
-    loadComments();
+        input.value="";
+        setCommentStatus("تم نشر الكومنت لكل الناس.");
+    }catch(error){
+        console.error(error);
+        setCommentStatus(
+            "مش قادر أنشر الكومنت دلوقتي. جرّب تاني.",
+            true
+        );
+    }
+}
+
+async function loopComment(commentId){
+    if(!commentsRef || !commentId)return;
+
+    const loopRef=commentsRef
+        .child(commentId)
+        .child("loops");
+
+    try{
+        await loopRef.transaction(currentValue=>{
+            const count=Number(currentValue || 0);
+            return count+1;
+        });
+    }catch(error){
+        console.error(error);
+        setCommentStatus(
+            "مش قادر أضيف اللف دلوقتي. جرّب تاني.",
+            true
+        );
+    }
+}
+
+function initSharedComments(){
+    if(!firebaseConfigIsReady()){
+        loadComments();
+        return;
+    }
+
+    try{
+        if(!firebase.apps.length){
+            firebase.initializeApp(FIREBASE_CONFIG);
+        }
+
+        commentsRef=firebase
+            .database()
+            .ref("saifGames/comments");
+
+        loadComments();
+    }catch(error){
+        console.error(error);
+        setCommentStatus(
+            "فشل تشغيل نظام الكومنتات المشتركة.",
+            true
+        );
+    }
 }
 
 /* =====================================================
@@ -2471,7 +2637,7 @@ themeToggle.addEventListener("click",()=>{
 ===================================================== */
 
 renderRecommended();
-loadComments();
+initSharedComments();
 renderFavorites();
 
 </script>
