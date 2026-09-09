@@ -205,9 +205,13 @@ header{padding:25px 15px 15px;text-align:center}
 .videoBtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
 .videoBtn{
     text-decoration:none;color:white;background:#181818;border:1px solid #303030;
-    padding:12px 16px;border-radius:12px;transition:.3s
+    padding:12px 16px;border-radius:12px;transition:.3s;
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;
 }
 .videoBtn:hover{background:#252525;transform:translateY(-3px)}
+.downloadBtn{font-weight:800;border-color:#384454}
+.downloadBtn:hover{background:#ffffff;color:#000;border-color:#ffffff}
+.downloadBtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
 
 .comments{margin:35px 0}
 .commentLoopBtn{
@@ -1241,9 +1245,11 @@ body.light .requirementBox p{color:#475569}
                 ⭐ Reviews
             </a>
 
-            <a id="sourceLink" class="videoBtn" target="_blank">
+            <a id="sourceLink" class="videoBtn" target="_blank" rel="noopener noreferrer">
                 🌐 Sources
             </a>
+
+            <div id="downloadBtns" class="downloadBtns"></div>
 
         </div>
 
@@ -2115,6 +2121,66 @@ function openGame(index){
 
     document.getElementById("sourceLink").href=
         "https://www.google.com/search?q="+query+"+official";
+
+    /* =====================================================
+       Download Links - المتاجر الرسمية حسب المنصة
+    ===================================================== */
+    const downloadBtns=document.getElementById("downloadBtns");
+    const platformText=String(game[2]||"").toLowerCase();
+    const downloadLinks=[];
+
+    const addDownloadLink=(condition,emoji,label,url)=>{
+        if(!condition)return;
+        downloadLinks.push(`
+            <a class="videoBtn downloadBtn" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Download ${label}">
+                ${emoji} Download
+            </a>
+        `);
+    };
+
+    addDownloadLink(
+        platformText.includes("pc"),
+        "💻",
+        "Steam",
+        "https://store.steampowered.com/search/?term="+query
+    );
+
+    addDownloadLink(
+        platformText.includes("playstation") || platformText.includes("ps"),
+        "🎮",
+        "PlayStation",
+        "https://store.playstation.com/en-us/search/"+query
+    );
+
+    addDownloadLink(
+        platformText.includes("xbox"),
+        "🟩",
+        "Xbox",
+        "https://www.xbox.com/en-US/search?query="+query
+    );
+
+    addDownloadLink(
+        platformText.includes("nintendo") || platformText.includes("switch") || platformText.includes("gamecube"),
+        "🕹️",
+        "Nintendo",
+        "https://www.nintendo.com/us/search/#q="+query
+    );
+
+    addDownloadLink(
+        platformText.includes("mobile"),
+        "▶️",
+        "Google Play",
+        "https://play.google.com/store/search?c=apps&q="+query
+    );
+
+    addDownloadLink(
+        platformText.includes("mobile"),
+        "🍎",
+        "App Store",
+        "https://apps.apple.com/eg/iphone/search?term="+query
+    );
+
+    downloadBtns.innerHTML=downloadLinks.join("");
 
     window.scrollTo({top:0,behavior:"smooth"});
 }
