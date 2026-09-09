@@ -1626,6 +1626,553 @@ makeSeries("Super Mario","🍄","مغامرات",["super mario","mario","سوب�
 
 ];
 
+
+/* =====================================================
+   CATALOG EXPANSION
+   إضافة الأجزاء الناقصة + سلاسل جديدة بدون حذف الموجود
+===================================================== */
+function addGamesToSeries(seriesName, games){
+    const series = seriesData.find(s => s.name === seriesName);
+    if(!series) return;
+    const existing = new Set(
+        series.games.map(g => String(g[0]).trim().toLowerCase())
+    );
+
+    games.forEach(game => {
+        const key = String(game[0]).trim().toLowerCase();
+        if(!existing.has(key)){
+            series.games.push(game);
+            existing.add(key);
+        }
+    });
+
+    series.games.sort((a,b) => Number(b[1]) - Number(a[1]));
+}
+
+function addNewSeries(name, emoji, genre, aliases, description, games){
+    if(seriesData.some(s => s.name === name)) return;
+    seriesData.push({
+        name,
+        emoji,
+        genre,
+        aliases: aliases || [name.toLowerCase()],
+        description,
+        games: games.slice().sort((a,b) => Number(b[1]) - Number(a[1]))
+    });
+}
+
+/* ---------- أجزاء ناقصة في السلاسل الموجودة ---------- */
+
+addGamesToSeries("FIFA / EA SPORTS FC", [
+]);
+
+addGamesToSeries("PES / eFootball", [
+    ["PES 2020",2019,"PC, PS4, Xbox One","إصدار رئيسي من PES."]
+]);
+
+addGamesToSeries("Grand Theft Auto", [
+    ["GTA: Liberty City Stories",2005,"PS2, PSP, Mobile","جزء فرعي من عالم GTA."],
+    ["GTA: Vice City Stories",2006,"PS2, PSP","جزء فرعي من عالم GTA."],
+    ["GTA: Chinatown Wars",2009,"Nintendo DS, PSP, Mobile","جزء فرعي من السلسلة."]
+]);
+
+addGamesToSeries("Assassin's Creed", [
+    ["Assassin's Creed Shadows",2025,"PC, PS5, Xbox Series X/S","مغامرة تاريخية تدور في اليابان الإقطاعية."],
+    ["Assassin's Creed Rogue",2014,"PC, PS3, Xbox 360","جزء رئيسي فرعي مرتبط بحقبة Kenway."],
+    ["Assassin's Creed Unity",2014,"PC, PS4, Xbox One","جزء تدور أحداثه في الثورة الفرنسية."],
+    ["Assassin's Creed Syndicate",2015,"PC, PS4, Xbox One","جزء تدور أحداثه في لندن الفيكتورية."]
+]);
+
+addGamesToSeries("Batman", [
+    ["Batman: Arkham Origins Blackgate",2013,"PC, PS Vita, Nintendo 3DS","نسخة جانبية من عالم Arkham."]
+]);
+
+addGamesToSeries("God of War", [
+    ["God of War",2005,"PS2, PS3","بداية السلسلة الرئيسية."],
+    ["God of War II",2007,"PS2, PS3","تكملة مباشرة للجزء الأول."],
+    ["God of War: Chains of Olympus",2008,"PSP, PS3","جزء فرعي من السلسلة."],
+    ["God of War III",2010,"PS3, PS4","الجزء الرئيسي الثالث."],
+    ["God of War: Ghost of Sparta",2010,"PSP, PS3","جزء فرعي من السلسلة."],
+    ["God of War: Ascension",2013,"PS3","جزء سابق لأحداث السلسلة."],
+    ["God of War Ragnarök",2022,"PS4, PS5, PC","تكملة God of War 2018."]
+]);
+
+addGamesToSeries("Call of Duty", [
+    ["Call of Duty",2003,"PC, PS3, Xbox 360","بداية السلسلة الرئيسية."],
+    ["Call of Duty 2",2005,"PC, Xbox 360","جزء من الحرب العالمية الثانية."],
+    ["Call of Duty 3",2006,"PS2, PS3, Xbox 360, Wii","جزء من السلسلة."],
+    ["Call of Duty 4: Modern Warfare",2007,"PC, PS3, Xbox 360","بداية حقبة Modern Warfare."],
+    ["Call of Duty: World at War",2008,"PC, PS3, Xbox 360, Wii","جزء من الحرب العالمية الثانية."],
+    ["Call of Duty: Modern Warfare 2",2009,"PC, PS3, Xbox 360","تكملة Modern Warfare."],
+    ["Call of Duty: Black Ops",2010,"PC, PS3, Xbox 360, Wii","بداية سلسلة Black Ops."],
+    ["Call of Duty: Modern Warfare 3",2011,"PC, PS3, Xbox 360, Wii","ختام ثلاثية Modern Warfare الأصلية."],
+    ["Call of Duty: Black Ops II",2012,"PC, PS3, Xbox 360, Wii U","تكملة Black Ops."],
+    ["Call of Duty: Ghosts",2013,"PC, PS3, PS4, Xbox 360, Xbox One, Wii U","جزء مستقل."],
+    ["Call of Duty: Advanced Warfare",2014,"PC, PS3, PS4, Xbox 360, Xbox One","جزء بطابع مستقبلي."],
+    ["Call of Duty: Black Ops III",2015,"PC, PS3, PS4, Xbox 360, Xbox One","تكملة Black Ops."],
+    ["Call of Duty: Infinite Warfare",2016,"PC, PS4, Xbox One","جزء بطابع خيال علمي."],
+    ["Call of Duty: WWII",2017,"PC, PS4, Xbox One","عودة لأجواء الحرب العالمية الثانية."],
+    ["Call of Duty: Black Ops 4",2018,"PC, PS4, Xbox One","جزء من Black Ops."],
+    ["Call of Duty: Modern Warfare",2019,"PC, PS4, Xbox One","إعادة تصور Modern Warfare."],
+    ["Call of Duty: Black Ops Cold War",2020,"PC, PS4, PS5, Xbox One, Xbox Series X/S","جزء من Black Ops."],
+    ["Call of Duty: Vanguard",2021,"PC, PS4, PS5, Xbox One, Xbox Series X/S","جزء من السلسلة."],
+    ["Call of Duty: Modern Warfare II",2022,"PC, PS4, PS5, Xbox One, Xbox Series X/S","تكملة Modern Warfare 2019."],
+    ["Call of Duty: Modern Warfare III",2023,"PC, PS4, PS5, Xbox One, Xbox Series X/S","تكملة Modern Warfare II."],
+    ["Call of Duty: Black Ops 6",2024,"PC, PS4, PS5, Xbox One, Xbox Series X/S","جزء من Black Ops."],
+    ["Call of Duty: Black Ops 7",2025,"PC, PS4, PS5, Xbox One, Xbox Series X/S","إصدار حديث من السلسلة."]
+]);
+
+addGamesToSeries("Need for Speed", [
+    ["Need for Speed Underground 2",2004,"PC, PS2, Xbox, GameCube","سباقات وتعديل سيارات."],
+    ["Need for Speed Most Wanted",2012,"PC, PS3, Xbox 360, Wii U, PS Vita","إعادة تصور لاسم Most Wanted."],
+    ["Need for Speed The Run",2011,"PC, PS3, Xbox 360, Wii","سباق بطابع قصصي."],
+    ["Need for Speed Shift",2009,"PC, PS3, Xbox 360, PSP","سباقات بطابع محاكاة."],
+    ["Need for Speed ProStreet",2007,"PC, PS2, PS3, Xbox 360, Wii","سباقات حلبات."],
+    ["Need for Speed Undercover",2008,"PC, PS2, PS3, Xbox 360, Wii","سباقات ومطاردات."],
+    ["Need for Speed 2015",2015,"PC, PS4, Xbox One","عودة لسباقات الشوارع."],
+    ["Need for Speed Hot Pursuit Remastered",2020,"PC, PS4, Xbox One, Nintendo Switch","نسخة محسنة من Hot Pursuit."]
+]);
+
+addGamesToSeries("Halo", [
+    ["Halo: Combat Evolved",2001,"PC, Xbox, Xbox One","بداية السلسلة."],
+    ["Halo 2",2004,"PC, Xbox, Xbox One","تكملة السلسلة."],
+    ["Halo 3",2007,"Xbox 360, Xbox One, PC","ختام ثلاثية البداية."],
+    ["Halo 3: ODST",2009,"Xbox 360, Xbox One, PC","قصة جانبية في عالم Halo."],
+    ["Halo: Reach",2010,"Xbox 360, Xbox One, PC","قصة سابقة لـ Combat Evolved."],
+    ["Halo 4",2012,"Xbox 360, Xbox One, PC","بداية Reclaimer Saga."],
+    ["Halo 5: Guardians",2015,"Xbox One","جزء رئيسي."],
+    ["Halo Wars",2009,"PC, Xbox 360, Xbox One","استراتيجية في عالم Halo."],
+    ["Halo Wars 2",2017,"PC, Xbox One","تكملة Halo Wars."]
+]);
+
+addGamesToSeries("Forza Horizon", [
+    ["Forza Horizon",2012,"Xbox 360, Xbox One","بداية سلسلة Horizon."],
+    ["Forza Horizon 2",2014,"Xbox 360, Xbox One","جزء من سباقات العالم المفتوح."],
+    ["Forza Horizon 3",2016,"PC, Xbox One","سباقات عالم مفتوح في أستراليا."],
+    ["Forza Horizon 4",2018,"PC, Xbox One, Xbox Series X/S","سباقات عالم مفتوح في بريطانيا."]
+]);
+
+addGamesToSeries("Forza Motorsport", [
+    ["Forza Motorsport",2005,"Xbox","بداية سلسلة Motorsport."],
+    ["Forza Motorsport 2",2007,"Xbox 360","سباقات محاكاة."],
+    ["Forza Motorsport 3",2009,"Xbox 360","سباقات محاكاة."],
+    ["Forza Motorsport 4",2011,"Xbox 360","سباقات محاكاة."],
+    ["Forza Motorsport 5",2013,"Xbox One","سباقات محاكاة."],
+    ["Forza Motorsport 6",2015,"Xbox One","سباقات محاكاة."],
+    ["Forza Motorsport 7",2017,"PC, Xbox One","سباقات محاكاة."]
+]);
+
+addGamesToSeries("Gears of War", [
+    ["Gears of War",2006,"PC, Xbox 360, Xbox One","بداية السلسلة."],
+    ["Gears of War 2",2008,"Xbox 360, Xbox One","تكملة السلسلة."],
+    ["Gears of War 3",2011,"Xbox 360, Xbox One","الجزء الثالث."],
+    ["Gears of War: Judgment",2013,"Xbox 360, Xbox One","قصة جانبية."],
+    ["Gears 4",2016,"PC, Xbox One","بداية جيل جديد من السلسلة."]
+]);
+
+addGamesToSeries("The Elder Scrolls", [
+    ["The Elder Scrolls: Arena",1994,"PC","بداية السلسلة."],
+    ["The Elder Scrolls II: Daggerfall",1996,"PC","جزء RPG كلاسيكي."],
+    ["The Elder Scrolls III: Morrowind",2002,"PC, Xbox","جزء رئيسي شهير."],
+    ["The Elder Scrolls IV: Oblivion",2006,"PC, PS3, Xbox 360","جزء رئيسي."],
+    ["The Elder Scrolls Online",2014,"PC, PS4, PS5, Xbox One, Xbox Series X/S","لعبة MMO في عالم Elder Scrolls."]
+]);
+
+addGamesToSeries("Fallout", [
+    ["Fallout",1997,"PC","بداية السلسلة."],
+    ["Fallout 2",1998,"PC","تكملة الجزء الأول."],
+    ["Fallout Tactics: Brotherhood of Steel",2001,"PC","جزء تكتيكي جانبي."],
+    ["Fallout 3",2008,"PC, PS3, Xbox 360","بداية حقبة ثلاثية الأبعاد."],
+    ["Fallout: New Vegas",2010,"PC, PS3, Xbox 360","جزء شهير في عالم Fallout."],
+    ["Fallout 76",2018,"PC, PS4, Xbox One","لعبة أونلاين في عالم Fallout."]
+]);
+
+addGamesToSeries("Doom", [
+    ["DOOM",1993,"PC, PlayStation, Xbox, Nintendo Switch","بداية السلسلة."],
+    ["DOOM II",1994,"PC, PlayStation, Xbox, Nintendo Switch","تكملة مباشرة."],
+    ["DOOM 3",2004,"PC, Xbox, PlayStation","إعادة تقديم السلسلة بأسلوب رعب."],
+    ["DOOM",2016,"PC, PS4, Xbox One, Nintendo Switch","إعادة إطلاق حديثة."],
+    ["DOOM Eternal",2020,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch","تكملة حديثة."],
+    ["DOOM: The Dark Ages",2025,"PC, PS5, Xbox Series X/S","جزء حديث بطابع العصور الوسطى."]
+]);
+
+addGamesToSeries("Quake", [
+    ["Quake II",1997,"PC, PlayStation, Xbox, Nintendo Switch","تكملة السلسلة."],
+    ["Quake III Arena",1999,"PC, Dreamcast","تصويب تنافسي."],
+    ["Quake 4",2005,"PC, Xbox 360","جزء رئيسي."]
+]);
+
+addGamesToSeries("Wolfenstein", [
+    ["Return to Castle Wolfenstein",2001,"PC, PS2, Xbox","عودة حديثة للسلسلة الكلاسيكية."],
+    ["Wolfenstein",2009,"PC, PS3, Xbox 360","إعادة تصور للسلسلة."],
+    ["Wolfenstein: The New Order",2014,"PC, PS3, PS4, Xbox 360, Xbox One","بداية العصر الحديث."],
+    ["Wolfenstein: The Old Blood",2015,"PC, PS4, Xbox One","مقدمة لـ The New Order."],
+    ["Wolfenstein II: The New Colossus",2017,"PC, PS4, Xbox One, Nintendo Switch","تكملة مباشرة."],
+    ["Wolfenstein: Youngblood",2019,"PC, PS4, Xbox One, Nintendo Switch","جزء تعاوني جانبي."]
+]);
+
+addGamesToSeries("BioShock", [
+    ["BioShock",2007,"PC, PS3, Xbox 360","بداية السلسلة."],
+    ["BioShock 2",2010,"PC, PS3, Xbox 360","تكملة السلسلة."],
+    ["BioShock Infinite",2013,"PC, PS3, Xbox 360","جزء مستقل في عالم BioShock."]
+]);
+
+addGamesToSeries("Borderlands", [
+    ["Borderlands",2009,"PC, PS3, Xbox 360","بداية السلسلة."],
+    ["Borderlands 2",2012,"PC, PS3, Xbox 360, PS Vita","تكملة السلسلة."],
+    ["Borderlands: The Pre-Sequel",2014,"PC, PS3, Xbox 360","قصة بين الجزأين."],
+    ["Borderlands 3",2019,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch","جزء رئيسي."],
+    ["Borderlands 4",2025,"PC, PS5, Xbox Series X/S","أحدث جزء رئيسي."]
+]);
+
+addGamesToSeries("Mafia", [
+    ["Mafia",2002,"PC, PS2, Xbox","بداية السلسلة."],
+    ["Mafia II",2010,"PC, PS3, Xbox 360","تكملة السلسلة."],
+    ["Mafia III",2016,"PC, PS4, Xbox One","جزء رئيسي."],
+    ["Mafia: The Old Country",2025,"PC, PS5, Xbox Series X/S","أحدث جزء في السلسلة."]
+]);
+
+addGamesToSeries("Just Cause", [
+    ["Just Cause",2006,"PC, PS2, Xbox","بداية السلسلة."],
+    ["Just Cause 2",2010,"PC, PS3, Xbox 360","تكملة السلسلة."],
+    ["Just Cause 3",2015,"PC, PS4, Xbox One","جزء رئيسي."]
+]);
+
+addGamesToSeries("Hitman", [
+    ["Hitman: Codename 47",2000,"PC","بداية السلسلة."],
+    ["Hitman 2: Silent Assassin",2002,"PC, PS2, Xbox, GameCube","جزء رئيسي."],
+    ["Hitman: Contracts",2004,"PC, PS2, Xbox","جزء رئيسي."],
+    ["Hitman: Blood Money",2006,"PC, PS2, Xbox 360","جزء رئيسي شهير."],
+    ["Hitman: Absolution",2012,"PC, PS3, Xbox 360","جزء رئيسي."],
+    ["Hitman",2016,"PC, PS4, Xbox One","بداية World of Assassination."],
+    ["Hitman 2",2018,"PC, PS4, Xbox One","تكملة."],
+    ["Hitman 3",2021,"PC, PS4, PS5, Xbox One, Xbox Series X/S","ختام ثلاثية World of Assassination."]
+]);
+
+addGamesToSeries("Splinter Cell", [
+    ["Tom Clancy's Splinter Cell",2002,"PC, PS2, Xbox, GameCube","بداية السلسلة."],
+    ["Splinter Cell: Pandora Tomorrow",2004,"PC, PS2, Xbox, GameCube","تكملة."],
+    ["Splinter Cell: Chaos Theory",2005,"PC, PS2, Xbox, GameCube","جزء شهير."],
+    ["Splinter Cell: Double Agent",2006,"PC, PS2, PS3, Xbox, Xbox 360","جزء رئيسي."],
+    ["Splinter Cell: Conviction",2010,"PC, Xbox 360","جزء رئيسي."],
+    ["Splinter Cell: Blacklist",2013,"PC, PS3, Xbox 360","آخر جزء رئيسي صدر."]
+]);
+
+addGamesToSeries("Prince of Persia", [
+    ["Prince of Persia: The Sands of Time",2003,"PC, PS2, Xbox, GameCube","بداية ثلاثية الرمال."],
+    ["Prince of Persia: Warrior Within",2004,"PC, PS2, Xbox, GameCube","الجزء الثاني."],
+    ["Prince of Persia: The Two Thrones",2005,"PC, PS2, Xbox, GameCube","ختام ثلاثية الرمال."],
+    ["Prince of Persia",2008,"PC, PS3, Xbox 360","إعادة تصور للسلسلة."]
+]);
+
+addGamesToSeries("Rainbow Six", [
+    ["Tom Clancy's Rainbow Six Vegas",2006,"PC, PS3, Xbox 360","تصويب تكتيكي."],
+    ["Tom Clancy's Rainbow Six Vegas 2",2008,"PC, PS3, Xbox 360","تكملة."],
+    ["Tom Clancy's Rainbow Six Siege",2015,"PC, PS4, PS5, Xbox One, Xbox Series X/S","تصويب تكتيكي تنافسي."]
+]);
+
+addGamesToSeries("Ghost Recon", [
+    ["Tom Clancy's Ghost Recon",2001,"PC, PS2, Xbox","بداية السلسلة."],
+    ["Ghost Recon Advanced Warfighter",2006,"PC, PS2, PS3, Xbox 360","جزء رئيسي."],
+    ["Ghost Recon Advanced Warfighter 2",2007,"PC, PS3, Xbox 360","تكملة."],
+    ["Ghost Recon Wildlands",2017,"PC, PS4, Xbox One","عالم مفتوح."],
+    ["Ghost Recon Breakpoint",2019,"PC, PS4, Xbox One","عالم مفتوح."]
+]);
+
+addGamesToSeries("The Division", [
+    ["Tom Clancy's The Division",2016,"PC, PS4, Xbox One","بداية السلسلة."],
+    ["Tom Clancy's The Division 2",2019,"PC, PS4, Xbox One","تكملة."]
+]);
+
+addGamesToSeries("Star Wars Jedi", [
+    ["Star Wars Jedi: Fallen Order",2019,"PC, PS4, PS5, Xbox One, Xbox Series X/S","بداية السلسلة."]
+]);
+
+addGamesToSeries("Marvel's Spider-Man", [
+    ["Marvel's Spider-Man",2018,"PS4, PS5, PC","بداية السلسلة."],
+    ["Marvel's Spider-Man: Miles Morales",2020,"PS4, PS5, PC","جزء مستقل مرتبط بالسلسلة."]
+]);
+
+addGamesToSeries("Tomb Raider", [
+    ["Tomb Raider",1996,"PC, PlayStation, Sega Saturn","بداية السلسلة."],
+    ["Tomb Raider II",1997,"PC, PlayStation","تكملة."],
+    ["Tomb Raider III",1998,"PC, PlayStation","جزء رئيسي."],
+    ["Tomb Raider: The Last Revelation",1999,"PC, PlayStation, Dreamcast","جزء رئيسي."],
+    ["Tomb Raider: Chronicles",2000,"PC, PlayStation, Dreamcast","مجموعة قصص."],
+    ["Tomb Raider: The Angel of Darkness",2003,"PC, PS2","جزء رئيسي."],
+    ["Tomb Raider: Legend",2006,"PC, PS2, PS3, Xbox, Xbox 360","إعادة إطلاق السلسلة."],
+    ["Tomb Raider: Anniversary",2007,"PC, PS2, PS3, Xbox 360, Wii","إعادة تصور للجزء الأول."],
+    ["Tomb Raider: Underworld",2008,"PC, PS2, PS3, Xbox 360, Wii","تكملة ثلاثية Legend."],
+    ["Rise of the Tomb Raider",2015,"PC, PS4, Xbox 360, Xbox One","تكملة Tomb Raider 2013."]
+]);
+
+addGamesToSeries("Horizon", [
+    ["Horizon Zero Dawn",2017,"PS4, PC, PS5","بداية السلسلة."]
+]);
+
+addGamesToSeries("Gran Turismo", [
+    ["Gran Turismo",1997,"PlayStation","بداية السلسلة."],
+    ["Gran Turismo 2",1999,"PlayStation","تكملة."],
+    ["Gran Turismo 3: A-Spec",2001,"PS2","جزء رئيسي."],
+    ["Gran Turismo 4",2004,"PS2","جزء رئيسي."],
+    ["Gran Turismo 5",2010,"PS3","جزء رئيسي."],
+    ["Gran Turismo 6",2013,"PS3","جزء رئيسي."]
+]);
+
+addGamesToSeries("Tekken", [
+    ["Tekken",1994,"Arcade, PlayStation","بداية السلسلة."],
+    ["Tekken 2",1995,"Arcade, PlayStation","تكملة."],
+    ["Tekken 3",1997,"Arcade, PlayStation","جزء شهير."],
+    ["Tekken 4",2001,"Arcade, PlayStation 2","جزء رئيسي."],
+    ["Tekken 5",2004,"Arcade, PlayStation 2","جزء رئيسي."],
+    ["Tekken 6",2007,"Arcade, PlayStation 3, Xbox 360, PSP","جزء رئيسي."],
+    ["Tekken 7",2015,"PC, PS4, Xbox One","جزء رئيسي."]
+]);
+
+addGamesToSeries("Street Fighter", [
+    ["Street Fighter",1987,"Arcade, PC","بداية السلسلة."],
+    ["Street Fighter II",1991,"Arcade, SNES, Mega Drive","أشهر أجزاء السلسلة الكلاسيكية."],
+    ["Street Fighter III",1997,"Arcade, Dreamcast, PS2","جزء رئيسي."],
+    ["Street Fighter IV",2008,"PC, PS3, Xbox 360","عودة حديثة للسلسلة."],
+    ["Street Fighter V",2016,"PC, PS4","جزء رئيسي."]
+]);
+
+addGamesToSeries("Mortal Kombat", [
+    ["Mortal Kombat",1992,"Arcade, SNES, Mega Drive, PlayStation","بداية السلسلة."],
+    ["Mortal Kombat II",1993,"Arcade, SNES, Mega Drive, PlayStation","تكملة."],
+    ["Mortal Kombat 3",1995,"Arcade, SNES, Mega Drive, PlayStation","جزء رئيسي."],
+    ["Mortal Kombat 4",1997,"Arcade, PlayStation, Nintendo 64, PC","أول انتقال رئيسي للأبعاد الثلاثية."],
+    ["Mortal Kombat: Deadly Alliance",2002,"PS2, Xbox, GameCube","عودة السلسلة."],
+    ["Mortal Kombat: Deception",2004,"PS2, Xbox, GameCube","جزء رئيسي."],
+    ["Mortal Kombat: Armageddon",2006,"PS2, Wii, Xbox","جزء رئيسي."],
+    ["Mortal Kombat",2011,"PC, PS3, Xbox 360, PS Vita","إعادة إطلاق السلسلة."],
+    ["Mortal Kombat X",2015,"PC, PS4, Xbox One","جزء رئيسي."],
+    ["Mortal Kombat 11",2019,"PC, PS4, Xbox One, Nintendo Switch","جزء رئيسي."]
+]);
+
+addGamesToSeries("Devil May Cry", [
+    ["Devil May Cry",2001,"PC, PS2","بداية السلسلة."],
+    ["Devil May Cry 2",2003,"PC, PS2","تكملة."],
+    ["Devil May Cry 3: Dante's Awakening",2005,"PC, PS2","جزء سابق زمنيًا."],
+    ["DmC: Devil May Cry",2013,"PC, PS3, PS4, Xbox 360, Xbox One","إعادة تصور للسلسلة."],
+    ["Devil May Cry 4",2008,"PC, PS3, Xbox 360","جزء رئيسي."]
+]);
+
+addGamesToSeries("Monster Hunter", [
+    ["Monster Hunter",2004,"PS2","بداية السلسلة."],
+    ["Monster Hunter 2",2006,"PS2","جزء رئيسي."],
+    ["Monster Hunter 3",2009,"Wii","جزء رئيسي."],
+    ["Monster Hunter 4",2013,"Nintendo 3DS","جزء رئيسي."],
+    ["Monster Hunter: World",2018,"PC, PS4, Xbox One","إصدار عالمي شهير."],
+    ["Monster Hunter Rise",2021,"PC, Nintendo Switch, PS4, PS5, Xbox One, Xbox Series X/S","جزء رئيسي."]
+]);
+
+addGamesToSeries("Final Fantasy", [
+    ["Final Fantasy",1987,"NES, PC, PlayStation","بداية السلسلة."],
+    ["Final Fantasy II",1988,"NES, PC, PlayStation","جزء رئيسي."],
+    ["Final Fantasy III",1990,"SNES, Nintendo DS, PC","جزء رئيسي."],
+    ["Final Fantasy IV",1991,"SNES, PlayStation, PC","جزء رئيسي."],
+    ["Final Fantasy V",1992,"SNES, PlayStation, PC","جزء رئيسي."],
+    ["Final Fantasy VI",1994,"SNES, PlayStation, PC","جزء رئيسي."],
+    ["Final Fantasy VII",1997,"PlayStation, PC","جزء شهير."],
+    ["Final Fantasy VIII",1999,"PlayStation, PC","جزء رئيسي."],
+    ["Final Fantasy IX",2000,"PlayStation, PC","جزء رئيسي."],
+    ["Final Fantasy X",2001,"PS2, PS3, PS4, PC, Switch","جزء رئيسي."],
+    ["Final Fantasy XII",2006,"PS2, PS4, PC, Switch","جزء رئيسي."],
+    ["Final Fantasy XIII",2009,"PS3, Xbox 360, PC","جزء رئيسي."],
+    ["Final Fantasy XV",2016,"PS4, Xbox One, PC","جزء رئيسي."],
+    ["Final Fantasy XVI",2023,"PS5, PC","جزء رئيسي."]
+]);
+
+addGamesToSeries("Persona", [
+    ["Persona",1996,"PlayStation, PC","بداية السلسلة."],
+    ["Persona 2: Innocent Sin",1999,"PlayStation, PSP","جزء رئيسي."],
+    ["Persona 2: Eternal Punishment",2000,"PlayStation, PSP","تكملة."],
+    ["Persona 3",2006,"PS2, PSP, PC","جزء رئيسي."],
+    ["Persona 4",2008,"PS2, PlayStation Vita, PC","جزء رئيسي."],
+    ["Persona 4 Golden",2012,"PC, PlayStation Vita, PS4, Xbox, Switch","نسخة موسعة."],
+    ["Persona 5",2016,"PS3, PS4","جزء رئيسي."],
+    ["Persona 5 Strikers",2020,"PC, PS4, Switch","جزء جانبي."]
+]);
+
+addGamesToSeries("Silent Hill", [
+    ["Silent Hill",1999,"PlayStation, PC","بداية السلسلة."],
+    ["Silent Hill 2",2001,"PS2, Xbox, PC","جزء شهير."],
+    ["Silent Hill 3",2003,"PS2, PC","تكملة."],
+    ["Silent Hill 4: The Room",2004,"PC, PS2, Xbox","جزء رئيسي."],
+    ["Silent Hill: Homecoming",2008,"PC, PS3, Xbox 360","جزء رئيسي."],
+    ["Silent Hill: Downpour",2012,"PS3, Xbox 360","جزء رئيسي."]
+]);
+
+addGamesToSeries("Metal Gear", [
+    ["Metal Gear",1987,"MSX2, PC","بداية السلسلة."],
+    ["Metal Gear 2: Solid Snake",1990,"MSX2, PC","تكملة."],
+    ["Metal Gear Solid",1998,"PlayStation, PC","جزء شهير."],
+    ["Metal Gear Solid 2: Sons of Liberty",2001,"PS2, Xbox, PC","جزء رئيسي."],
+    ["Metal Gear Solid 3: Snake Eater",2004,"PS2, Xbox 360, 3DS, PC","جزء سابق زمنيًا."],
+    ["Metal Gear Solid 4: Guns of the Patriots",2008,"PS3","جزء رئيسي."],
+    ["Metal Gear Solid: Peace Walker",2010,"PSP, PS3, Xbox 360","جزء رئيسي."],
+    ["Metal Gear Solid V: Ground Zeroes",2014,"PC, PS3, PS4, Xbox 360, Xbox One","مقدمة لـ The Phantom Pain."],
+    ["Metal Gear Solid V: The Phantom Pain",2015,"PC, PS3, PS4, Xbox 360, Xbox One","جزء رئيسي."]
+]);
+
+addGamesToSeries("Yakuza / Like a Dragon", [
+    ["Yakuza",2005,"PS2, PS3, PC","بداية السلسلة."],
+    ["Yakuza 2",2006,"PS2, PS3, PC","تكملة."],
+    ["Yakuza 3",2009,"PS3, PS4, PC","جزء رئيسي."],
+    ["Yakuza 4",2010,"PS3, PS4, PC","جزء رئيسي."],
+    ["Yakuza 5",2012,"PS3, PS4, PC","جزء رئيسي."],
+    ["Yakuza 0",2015,"PC, PS3, PS4, Xbox One, Xbox Series X/S","قصة سابقة."],
+    ["Yakuza 6: The Song of Life",2016,"PS4, Xbox One, PC","جزء رئيسي."],
+    ["Yakuza: Like a Dragon",2020,"PC, PS4, PS5, Xbox One, Xbox Series X/S","بداية حقبة Like a Dragon."]
+]);
+
+addGamesToSeries("Dragon Age", [
+    ["Dragon Age: Origins",2009,"PC, PS3, Xbox 360","بداية السلسلة."],
+    ["Dragon Age II",2011,"PC, PS3, Xbox 360","تكملة."],
+    ["Dragon Age: Inquisition",2014,"PC, PS3, PS4, Xbox 360, Xbox One","جزء رئيسي."]
+]);
+
+addGamesToSeries("Mass Effect", [
+    ["Mass Effect",2007,"PC, Xbox 360, PS3","بداية الثلاثية."],
+    ["Mass Effect 2",2010,"PC, PS3, Xbox 360","تكملة."],
+    ["Mass Effect 3",2012,"PC, PS3, Xbox 360, Wii U","ختام الثلاثية الأصلية."]
+]);
+
+addGamesToSeries("Baldur's Gate", [
+    ["Baldur's Gate",1998,"PC, Mac","بداية السلسلة."],
+    ["Baldur's Gate II: Shadows of Amn",2000,"PC, Mac","تكملة."],
+    ["Baldur's Gate: Dark Alliance",2001,"PS2, Xbox, GameCube","جزء جانبي."],
+    ["Baldur's Gate II: Throne of Bhaal",2001,"PC, Mac","توسعة وقصة ختامية."]
+]);
+
+addGamesToSeries("Diablo", [
+    ["Diablo",1996,"PC, Mac","بداية السلسلة."],
+    ["Diablo II",2000,"PC, Mac","تكملة."],
+    ["Diablo III",2012,"PC, PS3, PS4, Xbox 360, Xbox One, Switch","جزء رئيسي."]
+]);
+
+addGamesToSeries("Overwatch", [
+    ["Overwatch",2016,"PC, PS4, Xbox One, Nintendo Switch","بداية السلسلة."]
+]);
+
+addGamesToSeries("PUBG", [
+    ["PUBG Mobile",2018,"Mobile","نسخة الهواتف."]
+]);
+
+/* ---------- سلاسل جديدة إضافية ---------- */
+
+addNewSeries("Death Stranding","🌉","مغامرات",
+    ["death stranding","ديث ستراندنج"],
+    "سلسلة مغامرات وخيال علمي من Hideo Kojima.",
+    [
+        ["Death Stranding",2019,"PS4, PC, PS5, Xbox Series X/S","بداية السلسلة."],
+        ["Death Stranding 2: On the Beach",2025,"PS5, PC","الجزء الثاني."]
+    ]);
+
+addNewSeries("Control","🌀","أكشن",
+    ["control","كونترول"],
+    "أكشن وخيال علمي من Remedy.",
+    [
+        ["Control",2019,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch","بداية السلسلة."]
+    ]);
+
+addNewSeries("Alan Wake","🔦","رعب",
+    ["alan wake","آلان ويك"],
+    "أكشن ورعب نفسي من Remedy.",
+    [
+        ["Alan Wake",2010,"PC, Xbox 360, Xbox One, PS4, PS5","بداية السلسلة."],
+        ["Alan Wake 2",2023,"PC, PS5, Xbox Series X/S","تكملة السلسلة."]
+    ]);
+
+addNewSeries("Cyberpunk","🌃","RPG",
+    ["cyberpunk","cyberpunk 2077","سايبر بانك"],
+    "RPG وعالم مفتوح بطابع مستقبلي.",
+    [
+        ["Cyberpunk 2077",2020,"PC, PS4, PS5, Xbox One, Xbox Series X/S","لعبة RPG وعالم مفتوح."]
+    ]);
+
+addNewSeries("Watch Dogs","📱","عالم مفتوح",
+    ["watch dogs","واتش دوغز"],
+    "عالم مفتوح وتقنية واختراق.",
+    [
+        ["Watch Dogs",2014,"PC, PS3, PS4, Xbox 360, Xbox One, Wii U","بداية السلسلة."],
+        ["Watch Dogs 2",2016,"PC, PS4, Xbox One","تكملة."],
+        ["Watch Dogs: Legion",2020,"PC, PS4, PS5, Xbox One, Xbox Series X/S","جزء رئيسي."]
+    ]);
+
+addNewSeries("Control / Alan Wake","🌀","أكشن",
+    ["control alan wake","remedy universe"],
+    "ألعاب مرتبطة بعالم Remedy المشترك.",
+    [
+        ["Control",2019,"PC, PS4, PS5, Xbox One, Xbox Series X/S, Nintendo Switch","بداية Control."],
+        ["Alan Wake 2",2023,"PC, PS5, Xbox Series X/S","جزء حديث من Alan Wake."]
+    ]);
+
+addNewSeries("Deathloop","⏱️","أكشن",
+    ["deathloop","ديث لوب"],
+    "أكشن وتصويب بزمن متكرر.",
+    [
+        ["Deathloop",2021,"PC, PS5, Xbox Series X/S","لعبة أكشن مستقلة."]
+    ]);
+
+
+addNewSeries("Ori","🌿","مغامرات",
+    ["ori","ori and the blind forest"],
+    "مغامرات ومنصات بأسلوب فني.",
+    [
+        ["Ori and the Blind Forest",2015,"PC, Xbox One, Nintendo Switch","بداية السلسلة."],
+        ["Ori and the Will of the Wisps",2020,"PC, Xbox One, Xbox Series X/S, Nintendo Switch","تكملة."]
+    ]);
+
+addNewSeries("Portal","🌀","ألغاز",
+    ["portal","بورتال"],
+    "ألغاز ومنظور أول قائم على البوابات.",
+    [
+        ["Portal",2007,"PC, Xbox 360, PS3, Switch","بداية السلسلة."],
+        ["Portal 2",2011,"PC, PS3, Xbox 360, Switch","تكملة شهيرة."]
+    ]);
+
+addNewSeries("Half-Life","🔬","تصويب",
+    ["half life","half-life","هالف لايف"],
+    "سلسلة خيال علمي من Valve.",
+    [
+        ["Half-Life",1998,"PC, PlayStation 2","بداية السلسلة."],
+        ["Half-Life 2",2004,"PC, Xbox, Xbox 360, PS3","تكملة."],
+        ["Half-Life 2: Episode One",2006,"PC, Xbox 360, PS3","حلقة مكملة."],
+        ["Half-Life 2: Episode Two",2007,"PC, Xbox 360, PS3","حلقة مكملة."],
+        ["Half-Life: Alyx",2020,"PC VR","قصة في عالم Half-Life."]
+    ]);
+
+addNewSeries("Left 4 Dead","🧟","تصويب",
+    ["left 4 dead","left4dead"],
+    "ألعاب تعاونية في عالم مليء بالمصابين.",
+    [
+        ["Left 4 Dead",2008,"PC, Xbox 360","بداية السلسلة."],
+        ["Left 4 Dead 2",2009,"PC, Xbox 360","تكملة."]
+    ]);
+
+addNewSeries("Portal / Half-Life","🧪","ألغاز",
+    ["valve","valve games"],
+    "مجموعة سلاسل Valve الشهيرة.",
+    [
+        ["Portal 2",2011,"PC, PS3, Xbox 360, Switch","ألغاز."],
+        ["Half-Life 2",2004,"PC, Xbox, Xbox 360, PS3","خيال علمي."]
+    ]);
+
+
+addNewSeries("Control Universe","🌀","أكشن",
+    ["remedy","remedy connected universe"],
+    "أعمال مرتبطة بعالم Remedy.",
+    [
+        ["Control",2019,"PC, PS4, PS5, Xbox One, Xbox Series X/S","أكشن وخيال علمي."],
+        ["Alan Wake 2",2023,"PC, PS5, Xbox Series X/S","رعب نفسي."]
+    ]);
+
+/* =====================================================
+   نهاية توسعة الكتالوج
+===================================================== */
+
 seriesData.push(...extraSeriesData);
 
 /* =====================================================
